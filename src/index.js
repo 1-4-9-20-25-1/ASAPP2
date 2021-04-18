@@ -31,7 +31,7 @@ app.get('/logout',async(req,res)=>{
 })
 
 
-app.get('/demo',(req,res)=>{
+app.get('/',(req,res)=>{
     res.render('demo')
 })
 
