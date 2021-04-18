@@ -36,34 +36,25 @@ const adminSchema=new mongoose.Schema({
             count:{
                 type:Number,
                 default:0
+            },
+            capacity:{
+                type:Number,
+                required:true
             }
         }
     ]
 })
 
-adminSchema.pre('save',async function(next)
-{
+
+adminSchema.pre('save',async function(next){
     const admin=this
+
     if(admin.isModified('password'))
     {
         admin.password=await bcrypt.hash(admin.password,8)
     }
     next()
 })
-
-adminSchema.statics.findByCredentials= async function(email,pass){
-    const admin = await Admin.findOne({email})
-    if(!admin)
-    {
-        throw new Error('Email/password is wrong')
-    }
-    const isMatch = await bcrypt.compare(pass,admin.password)
-    if(!isMatch)
-    {
-        throw new Error('Email/password is wrong')
-    }
-    return admin
-}
 
 
 adminSchema.methods.addPlace=async function(x)
@@ -72,6 +63,19 @@ adminSchema.methods.addPlace=async function(x)
     const place = x
     admin.places=admin.places.concat(place)
     await admin.save()
+}
+
+adminSchema.statics.findByCredentials=async(email,pass)=>{
+    const admin=await Admin.findOne({email})
+    if(!admin)
+    {
+        throw new Error("NO USER FOUND")
+    }
+    const isMatch=await bcrypt.compare(pass,admin.password)
+    if(!isMatch)
+        throw new Error("PASSWORD DIDN'T MATCH")
+    return admin
+
 }
 
 
