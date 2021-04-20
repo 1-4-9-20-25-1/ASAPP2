@@ -1,7 +1,6 @@
 const express=require('express')
 const Admin=require('../models/admin')
 const {home,login}=require('../authentication/auth')
-const session = require('express-session')
 
 const router= new express.Router()
 
