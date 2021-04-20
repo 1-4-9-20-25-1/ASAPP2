@@ -46,7 +46,7 @@ router.post('/admin/login',async(req,res)=>{
 
 //HOME PAGE
 router.get('/admin/home',login,async(req,res)=>{
-    const admin=await Admin.findOne({name:req.session.name})
+    const admin=await Admin.findById(req.session.adminid)
     const places=admin.places
     res.render('adminhome',{places})
 })
@@ -54,7 +54,7 @@ router.get('/admin/home',login,async(req,res)=>{
 router.post('/admin/home',login,async(req,res)=>{
     try{
         const place=req.body
-        const admin=await Admin.findOne({name:req.session.name})
+        const admin=await Admin.findById(req.session.adminid)
         await admin.addPlace(place)
         res.status(201).redirect('/admin/home')
     }catch(e)
@@ -63,9 +63,9 @@ router.post('/admin/home',login,async(req,res)=>{
     }
 })
 
-router.get('/admin/home/places',login,async(req,res)=>{
+router.get('/view/places',login,async(req,res)=>{
     try{
-        const admin=await Admin.findOne({name:req.session.name})
+        const admin=await Admin.findById(req.session.adminid)
         res.send(admin.places)
     }catch(e)
     {
@@ -73,11 +73,59 @@ router.get('/admin/home/places',login,async(req,res)=>{
     }
 })
 
+router.delete('/delete/places/:delid',async(req,res)=>{
+    try{
+        const deleted=await Admin.updateOne({'places._id':req.params.delid},{$pull:{
+            'places':{"_id":req.params.delid}
+        }})
+        console.log(deleted)
+        res.send(deleted)
+    }
+    catch(e)
+    {
+        console.log(e)
+    }
+})
+
+//PROFILE
+router.get('/admin/profile',login,async(req,res)=>{
+    res.render('adminprofile')
+})
+
+//SETTINGS
+router.get('/admin/settings',login,async(req,res)=>{
+    try{
+        const admin=await Admin.findById(req.session.adminid)
+        res.render('adminsettings',{admin})
+    }
+    catch(e)
+    {
+        console.log(e)
+    }
+})
+
+router.patch('/admin/update/:uid',async(req,res)=>{
+    try{
+        console.log(req.body)
+        const admin=await Admin.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
+        if(!admin)
+            return res.send(404).send("ERROR")
+            res.send(admin)
+    }catch(e)
+    {
+        res.status(404).send(e)
+    }
+})
+
+router.patch('/admin/update/pass/:uid',async(req,res)=>{
+
+})
+
 
 //TEST ROUTES
 router.patch('/count',async(req,res)=>{
     try{
-        await Admin.updateOne({'places.name':'GYM'},{$inc:{
+        await Admin.updateOne({'places.name':'AUDITORIUM'},{$inc:{
             'places.$.count':1}})
             console.log("updated")
             res.send("okkkk")

@@ -3,7 +3,7 @@ if(window.location.pathname==='/admin/home')
 {
     setInterval(function()
     {
-        fetch('/admin/home/places',{method:'GET'})
+        fetch('/view/places',{method:'GET'})
         .then(res=>{
             if(res.ok) return res.json()
             throw new Error("FAILEIN CLIENT SIDE")
@@ -12,15 +12,27 @@ if(window.location.pathname==='/admin/home')
             const places=res
             places.forEach(place => {
                 const elem=document.getElementById(place._id.toString())
-                elem.textContent=place.count;
-                if(place.count==place.capacity)
+                const childnodes=elem.childNodes
+                childnodes[3].textContent=place.count
+                if(place.count>=place.capacity)
+                {
                     elem.className="text-danger"
-                else if(place.count>place.capacity/2)
+                    childnodes[5].childNodes[1].style.width="100%"
+                    childnodes[5].childNodes[1].className="progress-bar progress-bar-striped bg-danger"
+                }
+                else if(place.count>=place.capacity/2)
+                {
                     elem.className="text-warning"
+                    childnodes[5].childNodes[1].style.width=`${(place.count/place.capacity)*100}%`
+                    childnodes[5].childNodes[1].className="progress-bar progress-bar-striped bg-warning"
+                }
                 else if(place.count>0)
+                {
                     elem.className="text-success"
-                else
-                    elem.className="text-dark"
+                    childnodes[5].childNodes[1].style.width=`${(place.count/place.capacity)*100}%`
+                    childnodes[5].childNodes[1].className="progress-bar progress-bar-striped bg-success"
+                }
+
             });
         })
         .catch(err=>{
@@ -29,7 +41,47 @@ if(window.location.pathname==='/admin/home')
     },1000)
 }
 
+const deleteplace=function(id)
+{
+    fetch(`/delete/places/${id}`,{method:"DELETE"})
+    .then(res=>{
+        if(res.ok) window.location.reload()
+        else
+            throw new Error("FAILED TO DELETE")
+    }).catch(e=>{
+        console.log(e)
+    })
+}
 
+const updateone=function(id)
+{
+    const name=document.getElementById("username").value
+    const email=document.getElementById("email").value
+    const data={name,email}
+    fetch(`/admin/update/${id}`,
+    {method:'PATCH',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    body:JSON.stringify(data)})
+    .then(res=>{
+        if(res.ok)
+        {
+            return res.json()
+        }
+        throw new Error("error")
+    }).then(res=>{
+        window.location.reload()
+    }).catch(e=>{
+        console.log(e)
+    })
+}
+
+
+
+
+//EXTRA
 const incbtn=document.getElementById("inc")
 if(incbtn!=null)
 {
@@ -49,3 +101,6 @@ if(incbtn!=null)
         })
     })
 }
+
+
+//== in main page for colour
