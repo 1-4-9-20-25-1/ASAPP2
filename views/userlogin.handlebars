@@ -12,12 +12,12 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-	<title>Sign Up | Admin</title>
+	<title>User | Login</title>
 
 	<link href="/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-	
+
 <body>
 	<main class="d-flex w-100">
 		<div class="container d-flex flex-column">
@@ -26,34 +26,35 @@
 					<div class="d-table-cell align-middle">
 
 						<div class="text-center mt-4">
-							<div class="display-5 text-dark"><strong>ADMIN SIGNUP</strong></div>
+							<div class="display-5 text-dark"><strong>USER LOGIN</strong></div>
+							<p class="lead">
+								Sign in to your account to continue
+							</p>
 						</div>
 
 						<div class="card">
 							<div class="card-body">
 								<div class="m-sm-4">
-									<form action="" method="post">
-										<div class="mb-3">
-											<label class="form-label">Company</label>
-											<input type="text" class="form-control form-control-lg" name="name" placeholder="Enter your company name" />
-										</div>
+									
+									<form method="post">
 										<div class="mb-3">
 											<label class="form-label">Email</label>
 											<input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email" />
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Password</label>
-											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter password" />
+											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" />
+											<small>
+            									<a href="pages-reset-password.html">Forgot password?</a>
+          									</small>
+											
 										</div>
 										<div class="text-center mt-3">
-											{{!-- <a href="/" class="btn btn-lg btn-primary">Sign up</a> --}}
-											<input type="submit" class="btn btn-lg btn-primary" value="SUBMIT" />
+											<button type="submit" class="btn btn-lg btn-primary">Sign in</button>
 										</div>
+										<div class="text-center mt-1">Not a user?<a href="/admin/login">click here</a></div>
+										<div class="text-center mt-1">Don't have an account?<a href="/user/signup">Signup</a></div>
 									</form>
-									<div class="text-center mt-2">
-										<div>Not an Admin? <a href="/user/login">Click here</a></div>
-										<div>Already have an account<a href="/admin/login">Login</a></div>
-									</div>
 								</div>
 							</div>
 						</div>

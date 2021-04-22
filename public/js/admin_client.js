@@ -78,6 +78,42 @@ const updateone=function(id)
     })
 }
 
+const updatepass=function(id)
+{
+    const newpass=document.getElementById("new1").value
+    const new2=document.getElementById("new2").value
+    if(newpass!=new2)
+    {
+        const err=document.getElementById("msgpass")
+        err.className="alert alert-danger"
+        err.textContent="New passwords did not match."
+    }
+    const oldpass=document.getElementById("old").value
+    const data={oldpass,newpass}
+    fetch(`/admin/updatepass/${id}`,
+    {
+        method:'PATCH',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(data)})
+    .then(res=>{
+        if(res.ok)
+        { 
+            const done=document.getElementById("msgpass")
+            done.className="alert alert-success"
+            done.textContent="Update successfully."
+        }
+        else
+            throw new Error("error")
+    })
+    .catch(e=>{
+        console.log(e)
+    })
+}
+
+
 
 
 

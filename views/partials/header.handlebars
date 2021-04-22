@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+	<meta name="author" content="AdminKit">
+	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="shortcut icon" href="/img/icons/icon-48x48.png" />
+
+	<title>{{title}}</title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+	<link href="/css/app.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+	
+</head>
+
+
+<body>
+	<div class="wrapper">
+		{{!------------------------------------------- SIDEBAR------------------------------------------------}}
+		<nav id="sidebar" class="sidebar collapsed">
+			<div class="sidebar-content js-simplebar">
+				<a class="sidebar-brand" href="/admin/home">
+          <span class="align-middle text-light h1">ASAPP</span>
+        </a>
+
+				<ul class="sidebar-nav">
+					<li class="sidebar-header">
+						Pages
+					</li>
+
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="/admin/home">
+              <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+            </a>
+					</li>
+
+				
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="/admin/settings">
+              <i class="align-middle" data-feather="settings"></i> <span class="align-middle">Settings</span>
+            </a>
+					</li>
+
+
+				</ul>
+
+			</div>
+		</nav>
+
+		<div class="main">
+			{{!------------------------------------------- NAVBAR------------------------------------------------}}	
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+					<a class="sidebar-toggle d-flex">
+						<i class="hamburger align-self-center"></i>
+					</a>
+
+					<form class="d-none d-sm-inline-block">
+						<div class="input-group input-group-navbar">
+							<input type="text" class="form-control" placeholder="Search…" aria-label="Search">
+							<button class="btn" type="button">
+						<i class="align-middle" data-feather="search"></i>
+						</button>
+						</div>
+					</form>
+
+					<div class="navbar-collapse collapse">
+						<ul class="navbar-nav navbar-align">
+							<li class="nav-item dropdown">
+								<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
+					<i class="align-middle" data-feather="settings"></i>
+				</a>
+
+								<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+					<img src="/img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">USERNAME</span>
+				</a>
+								<div class="dropdown-menu dropdown-menu-end">
+									
+									<a class="dropdown-item" href="/admin/settings"><i class="align-middle me-1" data-feather="settings"></i> Settings & Privacy</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" id="out" href="/logout">Log out</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+			</nav>

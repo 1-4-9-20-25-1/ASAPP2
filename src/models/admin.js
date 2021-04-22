@@ -78,6 +78,16 @@ adminSchema.statics.findByCredentials=async(email,pass)=>{
 
 }
 
+adminSchema.methods.changePassword=async function(pass)
+{
+    const admin=this
+    const match=await bcrypt.compare(pass.oldpass,admin.password)   
+    if(!match)
+        throw new Error("console side error")
+    
+    admin.password=pass.newpass
+}
+
 
 
 const Admin = mongoose.model('Admin',adminSchema)

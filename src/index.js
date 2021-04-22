@@ -5,6 +5,7 @@ const expbs=require("express-handlebars")
 const path=require('path')
 require('./db/connection')
 const adminRouter=require('./routers/adminRouter')
+const userRouter=require('./routers/userRouter')
 
 
 const app=express()
@@ -45,13 +46,19 @@ app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 
 app.use(adminRouter)
+app.use(userRouter)
 
 
 
 //LOGOUT
 app.get('/logout',async(req,res)=>{
+    let page=''
+    if(req.session.adminid)
+        page='admin'
+    else if(req.session.userid)
+        page='user'
     req.session.destroy()
-    res.redirect('/admin/login')
+    res.redirect(`/${page}/login`)
 })
 
 

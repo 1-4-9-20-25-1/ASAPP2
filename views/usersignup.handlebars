@@ -12,7 +12,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-	<title>Sign Up | Admin</title>
+	<title>Sign Up | User</title>
 
 	<link href="/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
 					<div class="d-table-cell align-middle">
 
 						<div class="text-center mt-4">
-							<div class="display-5 text-dark"><strong>ADMIN SIGNUP</strong></div>
+							<div class="display-5 text-dark"><strong>USER SIGNUP</strong></div>
 						</div>
 
 						<div class="card">
@@ -34,8 +34,8 @@
 								<div class="m-sm-4">
 									<form action="" method="post">
 										<div class="mb-3">
-											<label class="form-label">Company</label>
-											<input type="text" class="form-control form-control-lg" name="name" placeholder="Enter your company name" />
+											<label class="form-label">Username</label>
+											<input type="text" class="form-control form-control-lg" name="name" placeholder="Enter username" />
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Email</label>
@@ -45,14 +45,21 @@
 											<label class="form-label">Password</label>
 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter password" />
 										</div>
+										<div class="mb-3">
+											<label class="form-label">Select University/Company</label>
+											<select class="form-control" name="belongsto">
+												{{#each list}}
+													<option value={{this._id}}>{{this.name}}</option>
+												{{/each}}
+											</select>
+										</div>
 										<div class="text-center mt-3">
-											{{!-- <a href="/" class="btn btn-lg btn-primary">Sign up</a> --}}
 											<input type="submit" class="btn btn-lg btn-primary" value="SUBMIT" />
 										</div>
 									</form>
 									<div class="text-center mt-2">
-										<div>Not an Admin? <a href="/user/login">Click here</a></div>
-										<div>Already have an account<a href="/admin/login">Login</a></div>
+										<div>Not a User? <a href="/admin/login">Click here</a></div>
+										<div>Already have an account<a href="/user/login">Login</a></div>
 									</div>
 								</div>
 							</div>

@@ -1,6 +1,6 @@
 const express=require('express')
 const Admin=require('../models/admin')
-const {home,login}=require('../authentication/auth')
+const {home,login}=require('../authentication/adminauth')
 
 const router= new express.Router()
 
@@ -33,6 +33,7 @@ router.post('/admin/login',async(req,res)=>{
     try{
         ({email,password}=req.body)
         const admin=await Admin.findByCredentials(email,password)
+
         req.session.adminid=admin._id
         req.session.name=admin.name
         res.status(200).redirect('/admin/home')
@@ -47,7 +48,7 @@ router.post('/admin/login',async(req,res)=>{
 router.get('/admin/home',login,async(req,res)=>{
     const admin=await Admin.findById(req.session.adminid)
     const places=admin.places
-    res.render('adminhome',{places})
+    res.render('adminhome',{places,title:"Admin | Home"})
 })
 
 router.post('/admin/home',login,async(req,res)=>{
@@ -86,16 +87,12 @@ router.delete('/delete/places/:delid',async(req,res)=>{
     }
 })
 
-//PROFILE
-router.get('/admin/profile',login,async(req,res)=>{
-    res.render('adminprofile')
-})
 
 //SETTINGS
 router.get('/admin/settings',login,async(req,res)=>{
     try{
         const admin=await Admin.findById(req.session.adminid)
-        res.render('adminsettings',{admin})
+        res.render('adminsettings',{admin,title:"Admin | Settings"})
     }
     catch(e)
     {
@@ -105,7 +102,6 @@ router.get('/admin/settings',login,async(req,res)=>{
 
 router.patch('/admin/update/:uid',async(req,res)=>{
     try{
-        console.log(req.body)
         const admin=await Admin.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
         if(!admin)
             return res.send(404).send("ERROR")
@@ -116,15 +112,26 @@ router.patch('/admin/update/:uid',async(req,res)=>{
     }
 })
 
-router.patch('/admin/update/pass/:uid',async(req,res)=>{
-
+router.patch('/admin/updatepass/:uid',async(req,res)=>{
+    try{
+        const admin=await Admin.findById(req.params.uid)
+        await admin.changePassword(req.body)
+        admin.save()
+        res.send("UPDATED")
+    }
+    catch(e)
+    {
+        console.log(e)
+        res.send("FAILED")
+    }
 })
+
 
 
 //TEST ROUTES
 router.patch('/count',async(req,res)=>{
     try{
-        await Admin.updateOne({'places.name':'AUDITORIUM'},{$inc:{
+        await Admin.updateOne({'places.name':'BAR'},{$inc:{
             'places.$.count':1}})
             console.log("updated")
             res.send("okkkk")
