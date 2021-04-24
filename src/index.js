@@ -61,6 +61,9 @@ app.get('/logout',async(req,res)=>{
     res.redirect(`/${page}/login`)
 })
 
+app.get('/scanner',async(req,res)=>{
+    res.render('scanner')
+})
 
 app.get('/',(req,res)=>{
     res.render('demo')
