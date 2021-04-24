@@ -1,4 +1,4 @@
-{{>header}}
+{{>userheader}}
 
 			<main class="content">
 				<div class="container-fluid p-0">
@@ -20,7 +20,7 @@
 							<div class="w-100">
 								<div class="row">
 									{{#each places}}
-										<div class="card col-sm-2 m-1">
+										<div class="card col-sm-2 m-1 place">
 											<div class="card-body" >
 											<div id="{{this._id}}">
 												<h3 class="mt-1 mb-3 text-center"><strong>{{this.name}}</strong></h3>
@@ -33,8 +33,8 @@
 														role="progressbar" 
 														></div>
 													</div>
-												<div class="text-right mt-5">
-													<button class="btn btn-sm btn-primary">OTP</button>
+												<div class="text-center mt-5">
+													<button class="btn btn-sm w-50 btn-primary">OTP</button>
 												</div>
 											</div>
 											</div>

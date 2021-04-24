@@ -78,7 +78,6 @@ router.delete('/delete/places/:delid',async(req,res)=>{
         const deleted=await Admin.updateOne({'places._id':req.params.delid},{$pull:{
             'places':{"_id":req.params.delid}
         }})
-        console.log(deleted)
         res.send(deleted)
     }
     catch(e)
@@ -104,7 +103,7 @@ router.patch('/admin/update/:uid',async(req,res)=>{
     try{
         const admin=await Admin.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
         if(!admin)
-            return res.send(404).send("ERROR")
+            return res.status(404).send("ERROR")
             res.send(admin)
     }catch(e)
     {
@@ -133,7 +132,6 @@ router.patch('/count',async(req,res)=>{
     try{
         await Admin.updateOne({'places.name':'BAR'},{$inc:{
             'places.$.count':1}})
-            console.log("updated")
             res.send("okkkk")
     }catch(e)
     {

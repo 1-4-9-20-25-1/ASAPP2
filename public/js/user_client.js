@@ -39,3 +39,64 @@ if(window.location.pathname==='/user/home')
         })
     },1000)
 }
+
+const updateUserInfo=function(id)
+{
+    const name=document.getElementById("username").value
+    const email=document.getElementById("email").value
+    const data={name,email}
+    fetch(`/user/update/${id}`,
+    {method:'PATCH',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    body:JSON.stringify(data)})
+    .then(res=>{
+        if(res.ok)
+        {
+            return res.json()
+        }
+        throw new Error("error")
+    }).then(res=>{
+        window.location.reload()
+    }).catch(e=>{
+        console.log(e)
+    })
+}
+
+const updateUserPassword=function(id)
+{
+    console.log(id)
+    const newpass=document.getElementById("new1").value
+    const new2=document.getElementById("new2").value
+    if(newpass!=new2)
+    {
+        const err=document.getElementById("msgpass")
+        err.className="alert alert-danger"
+        err.textContent="New passwords did not match."
+    }
+    const oldpass=document.getElementById("old").value
+    const data={oldpass,newpass}
+    fetch(`/user/updatepass/${id}`,
+    {
+        method:'PATCH',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(data)})
+    .then(res=>{
+        if(res.ok)
+        { 
+            const done=document.getElementById("msgpass")
+            done.className="alert alert-success"
+            done.textContent="Update successfully."
+        }
+        else
+            throw new Error("error")
+    })
+    .catch(e=>{
+        console.log(e)
+    })
+}

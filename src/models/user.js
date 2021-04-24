@@ -60,6 +60,16 @@ userSchema.statics.findByCredentials=async(email,pass)=>{
     return user
 }
 
+userSchema.methods.changePassword=async function(pass)
+{
+    const user=this
+    const match=await bcrypt.compare(pass.oldpass,user.password)   
+    if(!match)
+        throw new Error("console side error")
+    
+    user.password=pass.newpass
+}
+
 
 const User = mongoose.model('User',userSchema)
 

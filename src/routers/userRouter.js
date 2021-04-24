@@ -5,6 +5,7 @@ const {home,login}=require('../authentication/userauth')
 
 const router= new express.Router()
 
+//SIGNUP
 router.get('/user/signup',home,async(req,res)=>{
     try{
         const admins=await Admin.find()
@@ -34,6 +35,7 @@ router.post('/user/signup',async(req,res)=>{
     }
 })
 
+// LOGIN
 router.get('/user/login',home,(req,res)=>{
     res.render('userlogin')
 })
@@ -52,6 +54,7 @@ router.post('/user/login',async(req,res)=>{
     }
 })
 
+// HOME PAGE
 router.get('/user/home',login,async(req,res)=>{
     try{
         const user=await User.findById(req.session.userid)
@@ -77,12 +80,44 @@ router.get('/user/places',async(req,res)=>{
     }
 })
 
-// router.get('/user/home',(req,res)=>{
-    
-// })
+// SETTINGS
+router.get('/user/settings',login,async(req,res)=>{
+    try{
+        const user=await User.findById(req.session.userid)
+        res.render('usersettings',{user,title:'User | Settings'})
+    }catch(e)
+    {
+        res.send(e)
+    }
+})
 
-// router.get('/user/settings',async(req,res)=>{
-    
-// })
+
+router.patch('/user/update/:uid',async(req,res)=>{
+    console.log(req.params.uid)
+    try{
+        const user=await User.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
+        if(!user)
+            return res.status(404).send("ERROR")
+        res.send(user)
+    }catch(e)
+    {
+        res.status(404).send(e)
+    }
+})
+
+router.patch('/user/updatepass/:uid',async(req,res)=>{
+    try{
+        const user=await User.findById(req.params.uid)
+        console.log(user)
+        await user.changePassword(req.body)
+        user.save()
+        res.send("UPDATED")
+    }
+    catch(e)
+    {
+        console.log(e)
+        res.send("FAILED")
+    }
+})
 
 module.exports=router
