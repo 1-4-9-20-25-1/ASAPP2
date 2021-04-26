@@ -10,10 +10,13 @@
     transform: scale(1.02);
 }
 
+
+
 @media (min-width:350px) {
     .place{
         width: 100%;
     }
+
 }
 
 @media(min-width:600px)
