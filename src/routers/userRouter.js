@@ -2,6 +2,8 @@ const express=require('express')
 const User=require('../models/user')
 const Admin=require('../models/admin')
 const {home,login}=require('../authentication/userauth')
+var QRCode = require('qrcode')
+const QR = require('../models/qr')
 
 const router= new express.Router()
 
@@ -57,11 +59,25 @@ router.post('/user/login',async(req,res)=>{
 // HOME PAGE
 router.get('/user/home',login,async(req,res)=>{
     try{
+        let qrcode="",placename=""
         const user=await User.findById(req.session.userid)
+        // QR CODE
+        const qr=await QR.findOne({userid:req.session.userid})
+        if(qr!=null)
+        {
+            qrcode=qr.value
+            placename=qr.placename
+        }
+        //PLACES
         adminid=user.belongsto
         const admin=await Admin.findById(adminid)
         const places=admin.places
-        res.render('userhome',{places})
+        // RENDER
+        if(qr!=null)
+            res.render('userhome',{places,user,qrcode,placename})
+        else
+            res.render('userhome',{places,user})
+
     }catch(e)
     {
         console.log(e)
@@ -93,7 +109,6 @@ router.get('/user/settings',login,async(req,res)=>{
 
 
 router.patch('/user/update/:uid',async(req,res)=>{
-    console.log(req.params.uid)
     try{
         const user=await User.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
         if(!user)
@@ -119,5 +134,26 @@ router.patch('/user/updatepass/:uid',async(req,res)=>{
         res.send("FAILED")
     }
 })
+
+
+//GENERATE QR CODE
+router.post('/qrcode',async(req,res)=>{
+    const data={userid:req.session.userid,placeid:req.body.id}
+    try{
+        await QRCode.toDataURL(JSON.stringify(data), function (err, url) {
+            if(url)
+            {
+                const qr=new QR({value:url,userid:req.session.userid,placename:req.body.name}) 
+                qr.save()
+            }
+        })
+        res.status(200).send("ok")
+    }catch(e)
+    {
+        console.log(e)
+    }
+})
+
+
 
 module.exports=router

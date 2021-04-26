@@ -100,3 +100,24 @@ const updateUserPassword=function(id)
         console.log(e)
     })
 }
+
+
+const genreateQrcode=function(id,name)
+{
+    const data={id,name}
+    console.log(data)
+    fetch("/qrcode",
+    {
+        method:'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(data)})
+    .then(res=>{
+        if(res.ok)
+            window.location.reload()
+        else
+            window.alert("Try again.")
+    })    
+}
