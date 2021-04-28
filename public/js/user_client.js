@@ -101,7 +101,6 @@ const updateUserPassword=function(id)
     })
 }
 
-
 const genreateQrcode=function(id,name)
 {
     const data={id,name}
@@ -120,4 +119,21 @@ const genreateQrcode=function(id,name)
         else
             window.alert("Try again.")
     })    
+}
+
+const deleteUser=function(id)
+{
+    window.confirm("Please click OK to DELETE your account.")
+    fetch(`/user/delete/${id}`,{method:'DELETE'})
+    .then(res=>{
+        if(res.ok){
+            window.location.reload()
+        }else{
+            window.alert("TRY AGAIN.")
+        }
+    }).catch(e)
+    {
+        console.log(e)
+    }
+    
 }

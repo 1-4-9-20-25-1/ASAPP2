@@ -107,7 +107,7 @@ router.get('/user/settings',login,async(req,res)=>{
     }
 })
 
-
+//update info
 router.patch('/user/update/:uid',async(req,res)=>{
     try{
         const user=await User.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
@@ -119,7 +119,7 @@ router.patch('/user/update/:uid',async(req,res)=>{
         res.status(404).send(e)
     }
 })
-
+//update password
 router.patch('/user/updatepass/:uid',async(req,res)=>{
     try{
         const user=await User.findById(req.params.uid)
@@ -135,6 +135,19 @@ router.patch('/user/updatepass/:uid',async(req,res)=>{
     }
 })
 
+//delet account
+router.delete('/user/delete/:delid',async(req,res)=>{
+    try{
+        await User.findByIdAndDelete(req.params.delid)
+        await QR.findOneAndDelete({userid:req.params.delid})
+        console.log("deleted")
+        req.session.destroy()
+        res.send("ok")
+    }catch(e)
+    {
+        console.log(e)
+    }
+})
 
 //GENERATE QR CODE
 router.post('/qrcode',async(req,res)=>{

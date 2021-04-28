@@ -6,6 +6,7 @@ const path=require('path')
 require('./db/connection')
 const adminRouter=require('./routers/adminRouter')
 const userRouter=require('./routers/userRouter')
+const scannerRouter=require('./routers/scannerRouter')
 
 
 const app=express()
@@ -47,6 +48,7 @@ app.use(express.urlencoded({extended:false}))
 
 app.use(adminRouter)
 app.use(userRouter)
+app.use(scannerRouter)
 
 
 
