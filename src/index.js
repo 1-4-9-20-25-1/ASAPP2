@@ -1,9 +1,10 @@
-// require('dotenv').config()
+require('dotenv').config()
+require('./db/connection')
 const express=require('express')
 const session=require('express-session')
 const expbs=require("express-handlebars")
 const path=require('path')
-require('./db/connection')
+const cors=require('cors')
 const adminRouter=require('./routers/adminRouter')
 const userRouter=require('./routers/userRouter')
 const scannerRouter=require('./routers/scannerRouter')
@@ -42,6 +43,7 @@ app.use(session({
     saveUninitialized:false
 }))
 
+app.use(cors())
 app.use(express.static(publicpath))
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
@@ -61,10 +63,6 @@ app.get('/logout',async(req,res)=>{
         page='user'
     req.session.destroy()
     res.redirect(`/${page}/login`)
-})
-
-app.get('/scanner',async(req,res)=>{
-    res.render('scanner')
 })
 
 app.get('/',(req,res)=>{
