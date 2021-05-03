@@ -51,7 +51,8 @@
 													</div>
 													<div class="col-md-4">
 														<div class="text-center">
-															<img alt="Charles Hall" src="http://localhost:4444/admin/{{admin._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" />
+															<img src="https://asapp2.herokuapp.com/admin/{{admin._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" />
+															{{!-- <img alt="Charles Hall" src="http://localhost:4444/admin/{{admin._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" /> --}}
 															<div class="mt-2">
 																<form action="/admin/me/avatar" method="POST" enctype="multipart/form-data">
 																	<input type="file" name="avatar" style="width:98px">
