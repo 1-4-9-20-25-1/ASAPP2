@@ -40,12 +40,13 @@ if(window.location.pathname==='/user/home')
     },1000)
 }
 
-const updateUserInfo=function(id)
+const updateUserInfo=function()
 {
     const name=document.getElementById("username").value
     const email=document.getElementById("email").value
-    const data={name,email}
-    fetch(`/user/update/${id}`,
+    const belongsto=document.getElementById("belongsto").value
+    const data={name,email,belongsto}
+    fetch("/user/update",
     {method:'PATCH',
     headers: {
         'Accept': 'application/json',
@@ -136,4 +137,16 @@ const deleteUser=function(id)
         console.log(e)
     }
     
+}
+
+if(window.location.pathname === '/user/home')
+{
+    const item=document.getElementById('dashboarditem')
+    item.className="sidebar-item active"
+}
+
+if(window.location.pathname === '/user/settings')
+{
+    const item=document.getElementById('settingsitem')
+    item.className="sidebar-item active"
 }

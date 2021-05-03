@@ -47,7 +47,7 @@
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Select University/Company</label>
-											<select class="form-control" name="belongsto">
+											<select class="form-select" name="belongsto">
 												{{#each list}}
 													<option value={{this._id}}>{{this.name}}</option>
 												{{/each}}
@@ -58,7 +58,7 @@
 										</div>
 									</form>
 									<div class="text-center mt-2">
-										<div>Not a User? <a href="/admin/login">Click here</a></div>
+										<div>Not a User? <a href="/admin/signup">Click here</a></div>
 										<div>Already have an account<a href="/user/login">Login</a></div>
 									</div>
 								</div>

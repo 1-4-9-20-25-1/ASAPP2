@@ -1,9 +1,12 @@
 const express=require('express')
+const multer=require('multer')
+const sharp=require('sharp')
+const QRCode = require('qrcode')
 const User=require('../models/user')
 const Admin=require('../models/admin')
-const {home,login}=require('../authentication/userauth')
-var QRCode = require('qrcode')
 const QR = require('../models/qr')
+const {home,login}=require('../authentication/userauth')
+
 
 const router= new express.Router()
 
@@ -24,7 +27,7 @@ router.get('/user/signup',home,async(req,res)=>{
     }
 })
 
-router.post('/user/signup',async(req,res)=>{
+router.post('/user/signup',home,async(req,res)=>{
     try{
         const user=new User(req.body)
         user.save()
@@ -42,7 +45,7 @@ router.get('/user/login',home,(req,res)=>{
     res.render('userlogin')
 })
 
-router.post('/user/login',async(req,res)=>{
+router.post('/user/login',home,async(req,res)=>{
     try{
         const user=await User.findByCredentials(req.body.email,req.body.password)
         if(!user)
@@ -84,7 +87,7 @@ router.get('/user/home',login,async(req,res)=>{
     }
 })
 
-router.get('/user/places',async(req,res)=>{
+router.get('/user/places',login,async(req,res)=>{
     try{
         const user=await User.findById(req.session.userid)
         adminid=user.belongsto
@@ -100,7 +103,17 @@ router.get('/user/places',async(req,res)=>{
 router.get('/user/settings',login,async(req,res)=>{
     try{
         const user=await User.findById(req.session.userid)
-        res.render('usersettings',{user,title:'User | Settings'})
+        const admins=await Admin.find()
+        let list=[]
+        let curLocation=""
+        admins.forEach(x=>{
+            ({_id,name}=x)
+            if(_id.equals(user.belongsto))
+                curLocation=name
+            else
+                list.push({_id,name})
+        })
+        res.render('usersettings',{user,curLocation,list,title:'User | Settings'})
     }catch(e)
     {
         res.send(e)
@@ -108,9 +121,9 @@ router.get('/user/settings',login,async(req,res)=>{
 })
 
 //update info
-router.patch('/user/update/:uid',async(req,res)=>{
+router.patch('/user/update',login,async(req,res)=>{
     try{
-        const user=await User.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
+        const user=await User.findByIdAndUpdate(req.session.userid,req.body,{new:true,runValidators:true})
         if(!user)
             return res.status(404).send("ERROR")
         res.send(user)
@@ -120,9 +133,9 @@ router.patch('/user/update/:uid',async(req,res)=>{
     }
 })
 //update password
-router.patch('/user/updatepass/:uid',async(req,res)=>{
+router.patch('/user/updatepass/',login,async(req,res)=>{
     try{
-        const user=await User.findById(req.params.uid)
+        const user=await User.findById(req.session.userid)
         console.log(user)
         await user.changePassword(req.body)
         user.save()
@@ -135,7 +148,49 @@ router.patch('/user/updatepass/:uid',async(req,res)=>{
     }
 })
 
-//delet account
+const upload=multer({
+    limits:{
+        fileSize:1000000
+    },
+    fileFilter(req,file,cb){
+        if(file.originalname.match(/\.(jpg|jpeg|png)$/))
+            return cb(undefined,true)
+        return cb(new Error("Please upload an image"))
+    }
+})
+//upload pic
+router.post('/user/me/avatar',upload.single('avatar'),async(req,res)=>{
+    try{
+        const buffer=await sharp(req.file.buffer).resize({width:128,heigh:128}).png().toBuffer()
+        const user=await User.findById(req.session.userid)
+        user.avatar=buffer
+        await user.save()
+        res.redirect('/user/settings')
+    }catch(e)
+    {
+        res.send(e.message)
+    }
+},(error,req,res,next)=>{
+    res.status(400).send({error:error.message})
+})
+
+//get pic
+router.get('/user/:id/avatar',async(req,res)=>{
+try{
+    const user=await User.findById(req.params.id)
+    if(!user || !user.avatar)
+    {
+        throw new Error()
+    }
+    res.set('Content-Type','image/png')
+    res.send(user.avatar)
+}catch(e)
+{
+    res.status(404).send()
+}
+})
+
+//delete account
 router.delete('/user/delete/:delid',async(req,res)=>{
     try{
         await User.findByIdAndDelete(req.params.delid)

@@ -27,18 +27,27 @@ const userSchema = new mongoose.Schema({
         required:true,
         trim:true,
     },
+    
+    avatar:{
+        type: Buffer
+    },
     belongsto:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:'Org'
         
-    },
-    access:{
-        type:Boolean,
-        default:false
     }
 })
 
+userSchema.methods.toJSON=function(){
+    const user=this
+    const userObject=user.toObject()
+
+    delete userObject.password
+    delete userObject.avatar
+
+    return userObject
+}
 
 userSchema.pre('save',async function(next){
     const user=this

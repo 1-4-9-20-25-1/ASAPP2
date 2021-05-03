@@ -51,15 +51,19 @@
 													</div>
 													<div class="col-md-4">
 														<div class="text-center">
-															<img alt="Charles Hall" src="/img/avatars/avatar.jpg" class="rounded-circle img-responsive mt-2" width="128" height="128" />
+															<img alt="Charles Hall" src="http://localhost:4444/admin/{{admin._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" />
 															<div class="mt-2">
-																<span class="btn btn-primary">Upload</span>
+																<form action="/admin/me/avatar" method="POST" enctype="multipart/form-data">
+																	<input type="file" name="avatar" style="width:98px">
+																	<button class="btn btn-primary" type="submit">
+																		UPLOAD
+																	</button>
+																</form>
 															</div>
-															<small>For best results, use an image at least 128px by 128px in .jpg format</small>
 														</div>
 													</div>
 												</div>
-
+	
 												<button type="button" onclick="updateone('{{admin._id}}')" class="btn btn-primary">Save changes</button>
 											</div>
 
@@ -102,5 +106,11 @@
 
 				</div>
 			</main>
-
+<script>
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
 {{>footer}}			

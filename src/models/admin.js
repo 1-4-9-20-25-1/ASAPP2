@@ -27,6 +27,9 @@ const adminSchema=new mongoose.Schema({
             }
         }
     },
+    avatar:{
+        type:Buffer
+    },
     places:[
         {
             name:{

@@ -1,4 +1,4 @@
-{{>header}}
+{{>userheader}}
 
 
 			<main class="content">
@@ -48,19 +48,32 @@
 															value="{{user.email}}"
 															>
 														</div>
+														<div class="mb-3">
+															<label class="form-label">Change Location</label>
+															<select class="form-select" id="belongsto">
+																<option value={{this.belongsto}}>{{curLocation}}</option>
+																{{#each list}}
+																	<option value={{this._id}}>{{this.name}}</option>
+																{{/each}}
+															</select>
+														</div>
+														<button type="button" onclick="updateUserInfo()" class="btn btn-primary">Save changes</button>
 													</div>
 													<div class="col-md-4">
 														<div class="text-center">
-															<img alt="Charles Hall" src="/img/avatars/avatar.jpg" class="rounded-circle img-responsive mt-2" width="128" height="128" />
+															<img src="http://localhost:4444/user/{{user._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" />
 															<div class="mt-2">
-																<span class="btn btn-primary">Upload</span>
+																<form action="/user/me/avatar" method="POST" enctype="multipart/form-data">
+																	<input type="file" name="avatar" style="width:98px">
+																	<button class="btn btn-primary" type="submit">
+																		UPLOAD
+																	</button>
+																</form>
 															</div>
-															<small>For best results, use an image at least 128px by 128px in .jpg format</small>
 														</div>
 													</div>
 												</div>
 
-												<button type="button" onclick="updateUserInfo('{{user._id}}')" class="btn btn-primary">Save changes</button>
 											</div>
 
 										</div>

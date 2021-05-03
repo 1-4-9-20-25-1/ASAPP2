@@ -1,4 +1,6 @@
 const express=require('express')
+const multer=require('multer')
+const sharp=require('sharp')
 const Admin=require('../models/admin')
 const {home,login}=require('../authentication/adminauth')
 
@@ -48,7 +50,7 @@ router.post('/admin/login',async(req,res)=>{
 router.get('/admin/home',login,async(req,res)=>{
     const admin=await Admin.findById(req.session.adminid)
     const places=admin.places
-    res.render('adminhome',{places,title:"Admin | Home"})
+    res.render('adminhome',{places,admin,title:"Admin | Home"})
 })
 
 router.post('/admin/home',login,async(req,res)=>{
@@ -99,6 +101,50 @@ router.get('/admin/settings',login,async(req,res)=>{
     }
 })
 
+
+const upload=multer({
+    limits:{
+        fileSize:1000000
+    },
+    fileFilter(req,file,cb){
+        if(file.originalname.match(/\.(jpg|jpeg|png)$/))
+            return cb(undefined,true)
+        return cb(new Error("Please upload an image"))
+    }
+})
+//upload pic******************************************
+router.post('/admin/me/avatar',upload.single('avatar'),async(req,res)=>{
+    try{
+        const buffer=await sharp(req.file.buffer).resize({width:128,height:128}).png().toBuffer()
+        const admin=await Admin.findById(req.session.adminid)
+        admin.avatar=buffer
+        await admin.save()
+        res.redirect('/admin/settings')
+    }catch(e)
+    {
+        res.send(e.message)
+    }
+},(error,req,res,next)=>{
+    res.status(400).send({error:error.message})
+})
+
+//get pic********************************************
+router.get('/admin/:id/avatar',async(req,res)=>{
+    try{
+        const admin=await Admin.findById(req.params.id)
+        if(!admin || !admin.avatar)
+        {
+            throw new Error()
+        }
+        res.set('Content-Type','image/png')
+        res.send(admin.avatar)
+    }catch(e)
+    {
+        res.status(404).send()
+    }
+})
+
+//update info
 router.patch('/admin/update/:uid',async(req,res)=>{
     try{
         const admin=await Admin.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
@@ -111,6 +157,7 @@ router.patch('/admin/update/:uid',async(req,res)=>{
     }
 })
 
+//update pass
 router.patch('/admin/updatepass/:uid',async(req,res)=>{
     try{
         const admin=await Admin.findById(req.params.uid)

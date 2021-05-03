@@ -5,10 +5,13 @@ const session=require('express-session')
 const expbs=require("express-handlebars")
 const path=require('path')
 const cors=require('cors')
+const multer=require('multer')
+
 const adminRouter=require('./routers/adminRouter')
 const userRouter=require('./routers/userRouter')
 const scannerRouter=require('./routers/scannerRouter')
 
+const {colors}=require('./helpers')
 
 const app=express()
 const publicpath=path.join(__dirname,'../public')
@@ -19,17 +22,7 @@ const hbs =expbs.create({
       allowProtoMethodsByDefault: true,
     }, 
     helpers:{
-        colors:function(count,cap)
-        {
-            if(count>=cap)
-                return "danger"
-            else if(count>=cap/2)
-                return "warning"
-            else if(count>0)
-                return "success"
-            else
-                return "dark"
-        }
+        colors:colors
     }
 })
 
@@ -53,6 +46,21 @@ app.use(userRouter)
 app.use(scannerRouter)
 
 
+const upload=multer({
+    dest:'images'
+})
+
+const err=(req,res,next)=>{
+    throw new Error("new error")
+}
+
+app.post('/upload',err,(req,res)=>{
+    res.send()
+},(error,req,res,next)=>{
+    res.status(400).send({error:error.message})
+})
+
+
 
 //LOGOUT
 app.get('/logout',async(req,res)=>{
@@ -65,6 +73,7 @@ app.get('/logout',async(req,res)=>{
     res.redirect(`/${page}/login`)
 })
 
+//
 app.get('/',(req,res)=>{
     res.render('demo')
 })

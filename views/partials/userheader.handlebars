@@ -28,7 +28,7 @@
 <body>
 	<div class="wrapper">
 		{{!------------------------------------------- SIDEBAR------------------------------------------------}}
-		<nav id="sidebar" class="sidebar collapsed">
+		<nav id="sidebar" class="sidebar">
 			<div class="sidebar-content js-simplebar">
 				<a class="sidebar-brand" href="/admin/home">
           <span class="align-middle text-light h1">ASAPP</span>
@@ -39,7 +39,7 @@
 						Pages
 					</li>
 
-					<li class="sidebar-item active">
+					<li class="sidebar-item" id="dashboarditem">
 						<a class="sidebar-link" href="/user/home">
               <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
             </a>
@@ -47,7 +47,7 @@
 
 				
 
-					<li class="sidebar-item">
+					<li class="sidebar-item" id="settingsitem">
 						<a class="sidebar-link" href="/user/settings">
               <i class="align-middle" data-feather="settings"></i> <span class="align-middle">Settings</span>
             </a>
@@ -83,7 +83,7 @@
 				</a>
 
 								<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-					<img src="/img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">USERNAME</span>
+					<img src="http://localhost:4444/user/{{user._id}}/avatar" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">USERNAME</span>
 				</a>
 								<div class="dropdown-menu dropdown-menu-end">
 									

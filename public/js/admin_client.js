@@ -114,6 +114,17 @@ const updatepass=function(id)
 }
 
 
+if(window.location.pathname === '/admin/home')
+{
+    const item=document.getElementById('dashboarditem')
+    item.className="sidebar-item active"
+}
+
+if(window.location.pathname === '/admin/settings')
+{
+    const item=document.getElementById('settingsitem')
+    item.className="sidebar-item active"
+}
 
 
 
