@@ -106,7 +106,7 @@ const genreateQrcode=function(id,name)
 {
     const data={id,name}
     console.log(data)
-    fetch("/qrcode",
+    fetch("/generate/qrcode",
     {
         method:'POST',
         headers: {

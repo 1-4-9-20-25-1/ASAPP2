@@ -205,7 +205,7 @@ router.delete('/user/delete/:delid',async(req,res)=>{
 })
 
 //GENERATE QR CODE
-router.post('/qrcode',async(req,res)=>{
+router.post('/generate/qrcode',async(req,res)=>{
     const data={userid:req.session.userid,placeid:req.body.id}
     try{
         await QRCode.toDataURL(JSON.stringify(data), function (err, url) {

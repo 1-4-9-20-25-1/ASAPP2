@@ -2,8 +2,8 @@ const express=require('express')
 
 const router= new express.Router()
 
-router.get("/scan",async(req,res)=>{
-    res.send("ok")
+router.post("/scan",async(req,res)=>{
+    res.send("from node");
 })
 
 
