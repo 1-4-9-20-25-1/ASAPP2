@@ -211,7 +211,7 @@ router.post('/generate/qrcode',async(req,res)=>{
         await QRCode.toDataURL(JSON.stringify(data), function (err, url) {
             if(url)
             {
-                const qr=new QR({value:url,userid:req.session.userid,placename:req.body.name}) 
+                const qr=new QR({value:url,userid:req.session.userid,placeid:req.body.id,placename:req.body.name}) 
                 qr.save()
             }
         })

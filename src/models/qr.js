@@ -14,11 +14,11 @@ const otpSchema = new mongoose.Schema({
     userid:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
+    },    
+    placeid:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
     },
-    active:{
-        type:Boolean,
-        default:false
-    }
 })
 
 
