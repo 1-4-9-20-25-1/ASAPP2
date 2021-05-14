@@ -1,5 +1,6 @@
 const express=require('express')
 const QR=require('../models/qr')
+const Admin=require('../models/admin')
 const router= new express.Router()
 
 router.post("/scan",async(req,res)=>{
@@ -7,7 +8,7 @@ router.post("/scan",async(req,res)=>{
         const qrdata=await QR.findOne({userid:req.body.userid})
         if(qrdata && qrdata.placeid==req.body.placeid)
         {
-            await Admin.updateOne({'places._id':req.body.placid},{$inc:{
+            await Admin.updateOne({'places._id':req.body.placeid},{$inc:{
                 'places.$.count':1}})
             return res.send("GRANTED")
         }
