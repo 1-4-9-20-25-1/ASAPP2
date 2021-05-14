@@ -32,6 +32,12 @@ if(window.location.pathname==='/admin/home')
                     childnodes[5].childNodes[1].style.width=`${(place.count/place.capacity)*100}%`
                     childnodes[5].childNodes[1].className="progress-bar progress-bar-striped bg-success"
                 }
+                else
+                {
+                    elem.className="text-dark"
+                    childnodes[5].childNodes[1].style.width="0%"
+                    childnodes[5].childNodes[1].className="progress-bar progress-bar-striped bg-secondary"
+                }
 
             });
         })
