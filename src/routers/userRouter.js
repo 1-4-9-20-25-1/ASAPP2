@@ -225,6 +225,12 @@ router.post('/generate/qrcode',async(req,res)=>{
 
 router.delete('/delete/qrcode/:id',async(req,res)=>{
     try{
+        const code=QR.findOne({userid:req.params.id})
+        if(code.scanned)
+        {
+            await Admin.updateOne({'places._id':code.placeid},{$dec:{
+                'places.$.count':1}})
+        }
         await QR.findOneAndDelete({userid:req.params.id})
         res.status(200).send()
     }catch(e)

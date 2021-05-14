@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const { bool } = require('sharp')
 
 const otpSchema = new mongoose.Schema({
     value:{
@@ -19,6 +20,10 @@ const otpSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         required:true,
     },
+    scanned:{
+        type:Boolean,
+        default:false
+    }
 })
 
 
