@@ -102,26 +102,6 @@ const updateUserPassword=function(id)
     })
 }
 
-const genreateQrcode=function(id,name)
-{
-    const data={id,name}
-    console.log(data)
-    fetch("/generate/qrcode",
-    {
-        method:'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(data)})
-    .then(res=>{
-        if(res.ok)
-            window.location.reload()
-        else
-            window.alert("Try again.")
-    })    
-}
-
 const deleteUser=function(id)
 {
     window.confirm("Please click OK to DELETE your account.")
@@ -138,6 +118,47 @@ const deleteUser=function(id)
     }
     
 }
+
+
+const genreateQrcode=function(id,name)
+{
+    const data={id,name}
+    fetch("/generate/qrcode",
+    {
+        method:'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(data)})
+    .then(res=>{
+        if(res.ok)
+            window.location.reload()
+        else
+            window.alert("Try again.")
+    })    
+}
+
+const deleteQrcode=function(id)
+{
+    console.log(id)
+    fetch(`/delete/qrcode/${id}`,{method:'delete'})
+    .then(res=>{
+        if(res.ok){
+            window.location.reload()
+        }else{
+            window.alert("TRY AGAIN.")
+        }
+    }).catch(e=>{
+        console.log(e)
+    }) 
+}
+
+
+
+
+
+
 
 if(window.location.pathname === '/user/home')
 {

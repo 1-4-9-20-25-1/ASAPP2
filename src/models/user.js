@@ -27,15 +27,12 @@ const userSchema = new mongoose.Schema({
         required:true,
         trim:true,
     },
-    
     avatar:{
         type: Buffer
     },
     belongsto:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:'Org'
-        
     }
 })
 

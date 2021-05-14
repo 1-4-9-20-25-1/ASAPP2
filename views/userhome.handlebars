@@ -8,18 +8,19 @@
 							<h3>Hi <strong>{{user.name}}</strong></h3>
 						</div>
 {{!-----------------------------------VIEW QRCODE-----------------------------------------------------}}
-					{{#if qrcode}}
+					{{#if qr}}
 						<div class="col-auto ms-auto text-end mt-n1">
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addplace">VIEW OTP</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewcode">VIEW OTP</button>
+							<button class="btn btn-danger" onclick="deleteQrcode('{{qr.userid}}')" >CANCEL</button>
 						</div>
-						<div class="modal fade" id="addplace" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+						<div class="modal fade" id="viewcode" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-sm">
 								<div class="modal-content">
 									<h3 class="mt-3 text-center">
-										<div class="badge badge-info">{{placename}}</div>
+										<div class="badge badge-info">{{qr.placename}}</div>
 									</h3>
 									<div class="text-center mb-3">
-									<img src="{{qrcode}}" alt="" style="width:290px; height:290px">
+									<img src="{{qr.value}}" alt="" style="width:290px; height:290px">
 									</div>	
 									
 								</div>
@@ -50,7 +51,7 @@
 												<div class="text-center mt-5">
 													<button 
 													onclick="genreateQrcode('{{this._id}}','{{this.name}}')"
-													class="btn btn-sm w-50 btn-primary">OTP</button>
+													class="btn btn-sm w-50 btn-primary {{../disable}}">OTP</button>
 												</div>
 											</div>
 											</div>

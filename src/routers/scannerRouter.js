@@ -7,6 +7,8 @@ router.post("/scan",async(req,res)=>{
         const qrdata=await QR.findOne({userid:req.body.userid})
         if(qrdata && qrdata.placeid==req.body.placeid)
         {
+            await Admin.updateOne({'places._id':req.body.placid},{$inc:{
+                'places.$.count':1}})
             return res.send("GRANTED")
         }
         res.send('DENIED')

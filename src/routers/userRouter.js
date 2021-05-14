@@ -64,6 +64,10 @@ router.get('/user/home',login,async(req,res)=>{
     try{
         let qrcode="",placename=""
         const user=await User.findById(req.session.userid)
+        //PLACES
+        adminid=user.belongsto
+        const admin=await Admin.findById(adminid)
+        const places=admin.places
         // QR CODE
         const qr=await QR.findOne({userid:req.session.userid})
         if(qr!=null)
@@ -71,13 +75,10 @@ router.get('/user/home',login,async(req,res)=>{
             qrcode=qr.value
             placename=qr.placename
         }
-        //PLACES
-        adminid=user.belongsto
-        const admin=await Admin.findById(adminid)
-        const places=admin.places
+
         // RENDER
         if(qr!=null)
-            res.render('userhome',{places,user,qrcode,placename})
+            res.render('userhome',{places,qr,user,disable:"disabled"})
         else
             res.render('userhome',{places,user})
 
@@ -215,10 +216,21 @@ router.post('/generate/qrcode',async(req,res)=>{
                 qr.save()
             }
         })
-        res.status(200).send("ok")
+        res.status(200).send()
     }catch(e)
     {
         console.log(e)
+    }
+})
+
+router.delete('/delete/qrcode/:id',async(req,res)=>{
+    try{
+        await QR.findOneAndDelete({userid:req.params.id})
+        res.status(200).send()
+    }catch(e)
+    {
+        res.status(500).send();
+        console.log(e);
     }
 })
 
