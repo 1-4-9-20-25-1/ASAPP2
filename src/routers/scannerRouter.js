@@ -27,7 +27,7 @@ router.post('/scannerlogin',async(req,res)=>{
         const admin=await Admin.findOne({'scanners.number':req.body.number,'places.pincode':req.body.pincode}) 
         if(admin)
         {
-            const place=await Admin.findOne({'places.pincode':req.body.pincode})
+            const place=admin.places.find(place=>place.pincode===req.body.pincode)
             return res.send(place)
         }
         throw new Error()
