@@ -120,6 +120,41 @@ const updatepass=function(id)
 }
 
 
+
+const addNumber=function()
+{
+    const number=document.getElementById('number').value
+    fetch('/addnumber',{
+    method:'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body:JSON.stringify({number})})
+    .then(res=>{
+        if(res.ok) window.location.reload()
+        else{
+            window.alert('TRY AGAIN')
+        }
+    }).catch(e=>{
+        console.log(e)
+    })
+
+}
+
+const deleteNumber=function(id)
+{
+    fetch(`/deletenumber/${id}`,{method:"DELETE"})
+    .then(res=>{
+        if(res.ok) window.location.reload()
+        else
+            throw new Error("FAILED TO DELETE")
+    }).catch(e=>{
+        console.log(e)
+    })
+}
+
+
 if(window.location.pathname === '/admin/home')
 {
     const item=document.getElementById('dashboarditem')
@@ -133,27 +168,3 @@ if(window.location.pathname === '/admin/settings')
 }
 
 
-
-//EXTRA
-const incbtn=document.getElementById("inc")
-if(incbtn!=null)
-{
-    incbtn.addEventListener('click',()=>{
-        fetch('/count',{method:'PATCH'})
-        .then(res=>{
-            console.log(res)
-            if(res.ok)
-                return res.json()
-            throw new Error("FAILED");
-        })
-        .then(res=>{
-            console.log(res.data)
-        })
-        .catch(e=>{
-            console.log(e)
-        })
-    })
-}
-
-
-//== in main page for colour

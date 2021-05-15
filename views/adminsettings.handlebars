@@ -17,6 +17,7 @@
 								<div class="list-group list-group-flush" role="tablist">
 									<a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab">Account</a>
 									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab">Password</a>									
+									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#scanners" role="tab">Scanners</a>									
 									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">Delete account</a>
 								</div>
 							</div>
@@ -98,6 +99,35 @@
 												onclick="updatepass('{{admin._id}}')" class="btn btn-primary">Save changes</button>
 											</div>
 
+										</div>
+									</div>
+								</div>								
+								<div class="tab-pane fade" id="scanners" role="tabpanel">
+									<div class="card">
+										<div class="card-body">
+											<h3>Scanner info</h5>
+
+											<div>
+												<div class="input-group mb-3 numfield">
+													<input type="text" class="form-control" placeholder="1234...." id="number">
+													<div class="input-group-append">
+														<button class="btn btn-outline-primary" onclick="addNumber()" type="button" id="addnumber">Add</button>
+													</div>
+												</div>
+												
+												<ul class="list-group list-group-flush">
+													{{#each admin.scanners}}
+													<li class="list-group-item">
+														<div class="row">
+														<div class="col-6">{{this.number}}</div>
+														<div class="col-1 ml-auto mr-5">
+															<button onclick="deleteNumber('{{this._id}}')" class="btn-sm btn btn-outline-danger">DELETE</button>
+														</div>
+														</div>
+													</li>
+													{{/each}}
+												</ul>
+											</div>
 										</div>
 									</div>
 								</div>

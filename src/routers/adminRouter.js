@@ -2,6 +2,7 @@ const express=require('express')
 const multer=require('multer')
 const sharp=require('sharp')
 const Admin=require('../models/admin')
+const QR=require('../models/qr')
 const {home,login}=require('../authentication/adminauth')
 
 const router= new express.Router()
@@ -77,6 +78,7 @@ router.get('/view/places',login,async(req,res)=>{
 
 router.delete('/delete/places/:delid',async(req,res)=>{
     try{
+        await QR.findOneAndDelete({'placeid':req.params.delid})
         const deleted=await Admin.updateOne({'places._id':req.params.delid},{$pull:{
             'places':{"_id":req.params.delid}
         }})
@@ -112,6 +114,7 @@ const upload=multer({
         return cb(new Error("Please upload an image"))
     }
 })
+
 //upload pic******************************************
 router.post('/admin/me/avatar',upload.single('avatar'),async(req,res)=>{
     try{
@@ -172,17 +175,29 @@ router.patch('/admin/updatepass/:uid',async(req,res)=>{
     }
 })
 
-
-
-//TEST ROUTES
-router.patch('/count',async(req,res)=>{
+//add scanner number
+router.post('/addnumber',async(req,res)=>{
     try{
-        await Admin.updateOne({'places.name':'BAR'},{$inc:{
-            'places.$.count':1}})
-            res.send("okkkk")
+        const number=req.body
+        const admin=await Admin.findById(req.session.adminid)
+        await admin.addNumber(number)
+        res.status(200).send()
     }catch(e)
     {
-        res.send(e)
+        res.status(500).send()
+    }
+})
+
+router.delete('/deletenumber/:delid',async(req,res)=>{
+    try{
+        await Admin.updateOne({'scanners._id':req.params.delid},{$pull:{
+            'scanners':{"_id":req.params.delid}
+        }})
+        res.send()
+    }
+    catch(e)
+    {
+        console.log(e)
     }
 })
 

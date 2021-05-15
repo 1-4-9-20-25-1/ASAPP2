@@ -74,7 +74,6 @@ const updateUserInfo=function()
 
 const updateUserPassword=function(id)
 {
-    console.log(id)
     const newpass=document.getElementById("new1").value
     const new2=document.getElementById("new2").value
     if(newpass!=new2)

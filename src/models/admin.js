@@ -30,6 +30,14 @@ const adminSchema=new mongoose.Schema({
     avatar:{
         type:Buffer
     },
+    scanners:[
+        {
+            number:{
+                type:String,
+                required:true
+            }
+        }
+    ],
     places:[
         {
             name:{
@@ -42,6 +50,10 @@ const adminSchema=new mongoose.Schema({
             },
             capacity:{
                 type:Number,
+                required:true
+            },
+            pincode:{
+                type:String,
                 required:true
             }
         }
@@ -65,6 +77,14 @@ adminSchema.methods.addPlace=async function(x)
     const admin=this
     const place = x
     admin.places=admin.places.concat(place)
+    await admin.save()
+}
+
+adminSchema.methods.addNumber=async function(x)
+{
+    const admin=this
+    const number = x
+    admin.scanners=admin.scanners.concat(number)
     await admin.save()
 }
 
