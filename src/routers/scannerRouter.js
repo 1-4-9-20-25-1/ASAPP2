@@ -22,7 +22,7 @@ router.post("/scan",async(req,res)=>{
 })
 
 
-router.get('/scannerlogin',async(req,res)=>{
+router.post('/scannerlogin',async(req,res)=>{
     try{
         const admin=await Admin.findOne({'scanners.number':req.body.number,'places.pincode':req.body.pincode}) 
         console.log(admin)
