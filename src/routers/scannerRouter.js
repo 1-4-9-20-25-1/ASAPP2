@@ -38,6 +38,18 @@ router.post('/scannerlogin',async(req,res)=>{
 })
 
 
+router.post('/placedata/:placeid',async(req,res)=>{
+    try{
+        const admin=await Admin.findOne({'places._id':req.params.placeid})
+        const place=admin.places.find(place=>place._id===req.params.placeid)
+        res.send(place)
+    }catch(e)
+    {
+        res.status(404).send()
+    }
+})
+
+
 
 
 module.exports=router
