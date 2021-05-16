@@ -28,7 +28,7 @@ router.post('/scannerlogin',async(req,res)=>{
         if(admin)
         {
             const place=admin.places.find(place=>place.pincode===req.body.pincode);
-            return res.send(place.id)
+            return res.send(place)
         }
         throw new Error()
     }catch(e)
