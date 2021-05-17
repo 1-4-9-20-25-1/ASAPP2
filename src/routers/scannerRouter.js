@@ -6,6 +6,10 @@ const router= new express.Router()
 router.post("/scan",async(req,res)=>{
     try{
         const qrdata=await QR.findOne({userid:req.body.userid})
+        if(qrdata.scanned)
+        {
+            return res.send("DENIED")
+        }
         if(qrdata && qrdata.placeid==req.body.placeid)
         {
             await QR.findByIdAndUpdate(qrdata._id,{ $set: { scanned: true }})
