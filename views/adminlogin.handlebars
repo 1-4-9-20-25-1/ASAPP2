@@ -12,7 +12,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link rel="shortcut icon" href="/img/icons/icon-48x48.png" />
 
-	<title>Sign In | AdminKit Demo</title>
+	<title>Admin | Log in</title>
 
 	<link href="/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -40,13 +40,18 @@
 										<div class="mb-3">
 											<label class="form-label">Email</label>
 											<input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email" />
+											<div class="alert alert-danger mt-1" role="alert" style="padding-left: 4px;">{{mail}}</div>
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Password</label>
 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" />
+											<div class="alert alert-danger mt-1" role="alert" style="padding-left: 4px;">
+												{{pass}}
+											</div>
+{{!-- 
 											<small>
             									<a href="pages-reset-password.html">Forgot password?</a>
-          									</small>
+          									</small> --}}
 											
 										</div>
 										<div class="text-center mt-3">

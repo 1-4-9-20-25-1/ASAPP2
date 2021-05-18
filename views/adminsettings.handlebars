@@ -18,7 +18,7 @@
 									<a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab">Account</a>
 									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab">Password</a>									
 									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#scanners" role="tab">Scanners</a>									
-									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">Delete account</a>
+									<button class="list-group-item list-group-item-action" onclick="deleteAccount('{{admin._id}}')" role="tab">Delete account</button>
 								</div>
 							</div>
 						</div>
@@ -26,15 +26,14 @@
 						<div class="col-md-9 col-xl-10">
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="account" role="tabpanel">
-
+								{{!-- USER INFO --}}
 									<div class="card">
-										<div class="card-header">
-
-											<h5 class="card-title mb-0">Account Info</h5>
-										</div>
 										<div class="card-body">
 											<div>
+												<h3 class="mb-3">Account Info</h3>
 												<div class="row">
+											
+
 													<div class="col-md-8">
 														<div class="mb-3">
 															<label class="form-label" for="inputUsername">Username</label>
@@ -65,8 +64,8 @@
 														</div>
 													</div>
 												</div>
-	
-												<button type="button" onclick="updateone('{{admin._id}}')" class="btn btn-primary">Save changes</button>
+												<div class="alert alert-danger mt-1 w-75" role="alert" style="padding-left: 4px;" id="mailerr"></div>
+												<button type="button" onclick="updateInfo('{{admin._id}}','{{admin.email}}','{{admin.name}}')" class="btn btn-primary">Save changes</button>
 											</div>
 
 										</div>
@@ -76,13 +75,12 @@
 								<div class="tab-pane fade" id="password" role="tabpanel">
 									<div class="card">
 										<div class="card-body">
-											<h5 class="card-title">Password</h5>
+											<h3 class="">Password</h3>
 
 											<div>
 												<div class="mb-3">
 													<label class="form-label" for="inputPasswordCurrent">Current password</label>
 													<input type="password" class="form-control" id="old">
-													<small><a href="#">Forgot your password?</a></small>
 												</div>
 												<div class="mb-3">
 													<label class="form-label" for="inputPasswordNew">New password</label>
@@ -92,7 +90,7 @@
 													<label class="form-label" for="inputPasswordNew2">Verify password</label>
 													<input type="password" class="form-control" id="new2">
 												</div>
-												<div class="invisible" id="msgpass" role="alert" >
+												<div class="mb-2" id="passerr" role="alert" style="padding-left: 4px;">
 												</div>
 												<button 
 												type="button"
@@ -113,7 +111,9 @@
 													<div class="input-group-append">
 														<button class="btn btn-outline-primary" onclick="addNumber()" type="button" id="addnumber">Add</button>
 													</div>
+
 												</div>
+														<div class="alert alert-danger mt-1" role="alert" style="padding-left: 4px;" id="numerr"></div>
 												
 												<ul class="list-group list-group-flush">
 													{{#each admin.scanners}}

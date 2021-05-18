@@ -92,11 +92,18 @@ adminSchema.statics.findByCredentials=async(email,pass)=>{
     const admin=await Admin.findOne({email})
     if(!admin)
     {
-        throw new Error("NO USER FOUND")
+        var err=new Error("Invalid email address")
+        err.name='mailError'
+        throw err;
     }
     const isMatch=await bcrypt.compare(pass,admin.password)
     if(!isMatch)
-        throw new Error("PASSWORD DIDN'T MATCH")
+    {
+        var err=new Error("Invalid password")
+        err.name="passError"
+        throw err; 
+    }
+
     return admin
 
 }
@@ -106,12 +113,19 @@ adminSchema.methods.changePassword=async function(pass)
     const admin=this
     const match=await bcrypt.compare(pass.oldpass,admin.password)   
     if(!match)
-        throw new Error("console side error")
+        throw new Error("Current password is incorrect.")
     
     admin.password=pass.newpass
 }
 
-
+adminSchema.statics.checkEmail=async(newemail)=>{
+    const admin=await Admin.findOne({'email':newemail})
+    if(admin)
+    {
+        throw new Error("Email already in use.")
+    }
+    
+}
 
 const Admin = mongoose.model('Admin',adminSchema)
 

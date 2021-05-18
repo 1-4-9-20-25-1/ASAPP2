@@ -196,9 +196,8 @@ router.delete('/user/delete/:delid',async(req,res)=>{
     try{
         await User.findByIdAndDelete(req.params.delid)
         await QR.findOneAndDelete({userid:req.params.delid})
-        console.log("deleted")
         req.session.destroy()
-        res.send("ok")
+        res.send()
     }catch(e)
     {
         console.log(e)

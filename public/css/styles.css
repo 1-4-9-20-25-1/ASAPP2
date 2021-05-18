@@ -13,10 +13,7 @@
 
 
 @media (min-width:350px) {
-    .place{
-        width: 100%;
-    }
-    .numfield{
+    #numerr,.numfield,.place{
         width:100%;
     }
 
@@ -27,7 +24,9 @@
     .place{
         width:205px;
     }
-    .numfield{
-        width:30%;
+    #numerr,.numfield{
+        width:40%;
     }
 }
+
+

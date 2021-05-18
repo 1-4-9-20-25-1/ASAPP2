@@ -7,6 +7,7 @@ const {home,login}=require('../authentication/adminauth')
 
 const router= new express.Router()
 
+
 //SIGNUP
 router.get('/admin/signup',home,(req,res)=>{
     res.render('adminsignup')
@@ -42,8 +43,10 @@ router.post('/admin/login',async(req,res)=>{
         res.status(200).redirect('/admin/home')
     }catch(e)
     {
-        console.log(e);
-        res.send("failed")
+        if(e.name==='mailError')
+            res.render('adminlogin',{mail:e.message})
+        else
+            res.render('adminlogin',{pass:e.message})
     }
 })
 
@@ -103,7 +106,7 @@ router.get('/admin/settings',login,async(req,res)=>{
     }
 })
 
-
+// PIC
 const upload=multer({
     limits:{
         fileSize:1000000
@@ -150,13 +153,15 @@ router.get('/admin/:id/avatar',async(req,res)=>{
 //update info
 router.patch('/admin/update/:uid',async(req,res)=>{
     try{
+        if(req.body.email)
+            await Admin.checkEmail(req.body.email)
         const admin=await Admin.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
         if(!admin)
-            return res.status(404).send("ERROR")
-            res.send(admin)
+            return res.status(500).send()
+        res.send({msg:"Updated successfully",code:1})
     }catch(e)
     {
-        res.status(404).send(e)
+        res.status(200).send({msg:e.message,code:0})
     }
 })
 
@@ -166,14 +171,31 @@ router.patch('/admin/updatepass/:uid',async(req,res)=>{
         const admin=await Admin.findById(req.params.uid)
         await admin.changePassword(req.body)
         admin.save()
-        res.send("UPDATED")
+        res.send({msg:"Password updated successfully",code:1})
     }
     catch(e)
     {
-        console.log(e)
-        res.send("FAILED")
+        console.log(e.message)
+        res.send({msg:e.message,code:0})
     }
 })
+
+//delete account
+router.delete('/admin/delete/:delid',async(req,res)=>{
+    try{
+        const admin=await Admin.findById(req.params.delid)
+        await Admin.findByIdAndDelete(req.params.delid)
+        admin.places.forEach(async(place)=>{
+            await QR.findOneAndDelete({placeid:place._id})
+        })
+        req.session.destroy()
+        res.send("ok")
+    }catch(e)
+    {
+        console.log(e)
+    }
+})
+
 
 //add scanner number
 router.post('/addnumber',async(req,res)=>{
@@ -184,7 +206,7 @@ router.post('/addnumber',async(req,res)=>{
         res.status(200).send()
     }catch(e)
     {
-        res.status(500).send()
+        res.status(500).send(e)
     }
 })
 

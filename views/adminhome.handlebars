@@ -3,7 +3,7 @@
 				<div class="container-fluid p-0">
 					<div class="row mb-2 mb-xl-3">
 						<div class="col-auto d-none d-sm-block">
-							<h2><strong>ADMIN SIDE</strong></h2>
+							<h2><strong>DASHBOARD</strong></h2>
 						</div>
 {{!-----------------------------------ADD PLACE-----------------------------------------------------}}
 
@@ -20,16 +20,19 @@
 											name="name" 
 											placeholder="Place Name"
 											class="form-control bg-light"
+											required
 											>
-											<input type="text" 
+											<input type="number" 
 											name="capacity" 
 											placeholder="Maximum Capacity"
 											class="form-control bg-light my-1"
+											required
 											>
 											<input type="text" 
 											name="pincode" 
 											placeholder="Pin Code"
 											class="form-control bg-light my-1"
+											required
 											>
 											<div class="mt-1">
 												<input type="submit" id="placeform" class="btn btn-primary">

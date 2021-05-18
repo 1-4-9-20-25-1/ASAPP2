@@ -109,7 +109,9 @@ const updateUserPassword=function(id)
 
 const deleteUser=function(id)
 {
-    window.confirm("Please click OK to DELETE your account.")
+    const res=window.confirm("Please click OK to DELETE your account.")
+    if(!res)
+        return;
     fetch(`/user/delete/${id}`,{method:'DELETE'})
     .then(res=>{
         if(res.ok){

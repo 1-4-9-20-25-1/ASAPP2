@@ -1,3 +1,4 @@
+
 // admin home--fetching places
 if(window.location.pathname==='/admin/home')
 {
@@ -59,11 +60,18 @@ const deleteplace=function(id)
     })
 }
 
-const updateone=function(id)
+const updateInfo=function(id,mail,username)
 {
     const name=document.getElementById("username").value
     const email=document.getElementById("email").value
-    const data={name,email}
+    const data={}
+    if(mail===email && name==username)
+        return;
+    if(mail!==email)
+        data['email']=email
+    if(username!=name)
+        data['name']=name;
+    console.log(data)
     fetch(`/admin/update/${id}`,
     {method:'PATCH',
     headers: {
@@ -72,13 +80,26 @@ const updateone=function(id)
       },
     body:JSON.stringify(data)})
     .then(res=>{
-        if(res.ok)
+        if(res.status==200)
         {
             return res.json()
         }
-        throw new Error("error")
+        throw new Error()
     }).then(res=>{
-        window.location.reload()
+        const elem=document.getElementById('mailerr')
+        const lst=elem.classList
+        if(res.code==1)
+        {
+            lst.remove("alert-danger")
+            lst.add("alert-success")
+        }else{
+            lst.remove("alert-success")
+            lst.add("alert-danger")
+        }
+        elem.innerHTML=res.msg
+        setTimeout(()=>{
+            window.location.reload()
+        },1500)
     }).catch(e=>{
         console.log(e)
     })
@@ -88,11 +109,13 @@ const updatepass=function(id)
 {
     const newpass=document.getElementById("new1").value
     const new2=document.getElementById("new2").value
+    const err=document.getElementById("passerr")
+    const lst=err.classList
     if(newpass!=new2)
     {
-        const err=document.getElementById("msgpass")
-        err.className="alert alert-danger"
+        elst.add("alert alert-danger")
         err.textContent="New passwords did not match."
+        return;
     }
     const oldpass=document.getElementById("old").value
     const data={oldpass,newpass}
@@ -107,23 +130,56 @@ const updatepass=function(id)
     .then(res=>{
         if(res.ok)
         { 
-            const done=document.getElementById("msgpass")
-            done.className="alert alert-success"
-            done.textContent="Update successfully."
+            return res.json()
         }
-        else
-            throw new Error("error")
+        throw new Error("error")
+    })
+    .then(res=>{
+        if(res.code===1)
+        {
+            lst.remove("alert-danger")
+            lst.add("alert-success")
+            err.textContent=res.msg
+        }else{
+            lst.remove("alert-success")
+            lst.add("alert-danger")
+            err.textContent=res.msg
+        }
     })
     .catch(e=>{
         console.log(e)
     })
 }
 
-
+const deleteAccount=function(id)
+{
+    const res=window.confirm("Please click OK to DELETE your account.")
+    if(!res)
+        return;
+    fetch(`/admin/delete/${id}`,{method:'DELETE'})
+    .then(res=>{
+        if(res.ok){
+            window.location.reload()
+        }else{
+            window.alert("TRY AGAIN.")
+        }
+    }).catch(e)
+    {
+        console.log(e)
+    }
+    
+}
 
 const addNumber=function()
 {
+    var phoneno = /^\d{10}$/;
     const number=document.getElementById('number').value
+    if(!number.match(phoneno))
+    {
+        const e=document.getElementById("numerr")
+        e.innerHTML="Not a valid number."
+        return;
+    }
     fetch('/addnumber',{
     method:'POST',
     headers: {
@@ -155,6 +211,8 @@ const deleteNumber=function(id)
 }
 
 
+
+
 if(window.location.pathname === '/admin/home')
 {
     const item=document.getElementById('dashboarditem')
@@ -166,5 +224,4 @@ if(window.location.pathname === '/admin/settings')
     const item=document.getElementById('settingsitem')
     item.className="sidebar-item active"
 }
-
 

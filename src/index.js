@@ -1,11 +1,9 @@
-// require('dotenv').config()
+const path=require('path')
 require('./db/connection')
 const express=require('express')
 const session=require('express-session')
 const expbs=require("express-handlebars")
-const path=require('path')
 const cors=require('cors')
-
 
 // IMPORTING HELPERS
 const {colors}=require('./helpers')
