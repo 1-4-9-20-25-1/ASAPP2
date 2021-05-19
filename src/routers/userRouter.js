@@ -6,7 +6,7 @@ const User=require('../models/user')
 const Admin=require('../models/admin')
 const QR = require('../models/qr')
 const {home,login}=require('../authentication/userauth')
-const {getAdminsList,verifyEmail}=require('../functions')
+const {getAdminsList,verifyEmail,getPlaces}=require('../functions')
 
 const router= new express.Router()
 
@@ -63,25 +63,23 @@ router.post('/user/login',home,async(req,res)=>{
 // HOME PAGE
 router.get('/user/home',login,async(req,res)=>{
     try{
-        let qrcode="",placename=""
         const user=await User.findById(req.session.userid)
         //PLACES
-        adminid=user.location
-        const admin=await Admin.findById(adminid)
-        const places=admin.places
+        const places=await getPlaces(user.location)
+        const admin=await Admin.findById(user.location);
+        const location=admin.name
+        if(!places)
+        {
+            return res.render('userhome',{msg:"LOCATION NOT AVAILABLE!",user})
+        }
         // QR CODE
         const qr=await QR.findOne({userid:req.session.userid})
-        if(qr!=null)
-        {
-            qrcode=qr.value
-            placename=qr.placename
-        }
 
         // RENDER
         if(qr!=null)
-            res.render('userhome',{places,qr,user,disable:"disabled"})
+            res.render('userhome',{places,location,qr,user,disable:"disabled"})
         else
-            res.render('userhome',{places,user})
+            res.render('userhome',{places,location,user})
 
     }catch(e)
     {
@@ -92,9 +90,9 @@ router.get('/user/home',login,async(req,res)=>{
 router.get('/user/places',login,async(req,res)=>{
     try{
         const user=await User.findById(req.session.userid)
-        adminid=user.location
-        const admin=await Admin.findById(adminid)
-        res.send(admin.places)
+        const places=await getPlaces(user.location)
+        return res.send(places)
+        
     }catch(e)
     {
         console.log(e)

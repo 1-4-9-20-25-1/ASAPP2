@@ -1,14 +1,16 @@
 if(window.location.pathname==='/user/home')
 {
-    setInterval(function()
+    const abc=setInterval(function()
     {
         fetch('/user/places',{method:'GET'})
         .then(res=>{
             if(res.ok) return res.json()
-            throw new Error("FAILED IN CLIENT SIDE")
+            throw new Error("")
         })
         .then(res=>{
             const places=res
+            if(!places || places.length===0)
+                throw new Error()
             places.forEach(place => {
                 const elem=document.getElementById(place._id.toString())
                 const childnodes=elem.childNodes
@@ -41,7 +43,7 @@ if(window.location.pathname==='/user/home')
             });
         })
         .catch(err=>{
-            console.log(err)
+            clearInterval(abc)
         })
     },1000)
 }

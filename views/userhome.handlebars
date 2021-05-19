@@ -2,10 +2,15 @@
 
 			<main class="content">
 				<div class="container-fluid p-0">
-
+					{{#if msg}}
+						<div class="display-1 t-shadow" align="center">
+							Location not available
+						</div>
+					{{/if}}
+					{{#if places}}
 					<div class="row mb-2 mb-xl-3">
 						<div class="col-auto d-none d-sm-block">
-							<h3>Hi <strong>{{user.name}}</strong></h3>
+							<div class="display-5 mb-4 px-2 py-1 " style="color:#6082b6"><strong>{{location}}</strong></div>
 						</div>
 {{!-----------------------------------VIEW QRCODE-----------------------------------------------------}}
 					{{#if qr}}
@@ -57,14 +62,11 @@
 											</div>
 										</div>
 									{{/each}}
-
-					
 								</div>
 							</div>
 						</div>
 					</div>
-
-
+					{{/if}}
 				</div>
 			</main>
 {{>footer}}

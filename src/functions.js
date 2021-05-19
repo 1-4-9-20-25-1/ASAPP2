@@ -30,6 +30,11 @@ const verifyEmail=async(email)=>{
     }
 }
 
+const getPlaces=async(id)=>{
+    const admin=await Admin.findById(id)
+    if(admin)
+        return admin.places
+    return null
+}
 
-
-module.exports={getAdminsList,verifyEmail}
+module.exports={getAdminsList,verifyEmail,getPlaces}
