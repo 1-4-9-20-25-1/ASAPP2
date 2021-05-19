@@ -6,19 +6,14 @@ const User=require('../models/user')
 const Admin=require('../models/admin')
 const QR = require('../models/qr')
 const {home,login}=require('../authentication/userauth')
-
+const {getAdminsList,verifyEmail}=require('../functions')
 
 const router= new express.Router()
 
 //SIGNUP
 router.get('/user/signup',home,async(req,res)=>{
     try{
-        const admins=await Admin.find()
-        let list=[]
-        admins.forEach(x=>{
-            ({_id,name}=x)
-            list.push({_id,name})
-        })
+        const list=await getAdminsList()
         res.render('usersignup',{list})
     }
     catch(e)
@@ -29,6 +24,7 @@ router.get('/user/signup',home,async(req,res)=>{
 
 router.post('/user/signup',home,async(req,res)=>{
     try{
+        await verifyEmail(req.body.email)
         const user=new User(req.body)
         user.save()
         req.session.userid=user._id
@@ -36,7 +32,11 @@ router.post('/user/signup',home,async(req,res)=>{
         res.redirect("/user/signup")
     }catch(e)
     {
-        console.log(e)
+        if(e.name==="duplicate")
+        {
+            const list=await getAdminsList()
+            res.render('usersignup',{email:e.message,list})
+        }
     }
 })
 
@@ -48,14 +48,15 @@ router.get('/user/login',home,(req,res)=>{
 router.post('/user/login',home,async(req,res)=>{
     try{
         const user=await User.findByCredentials(req.body.email,req.body.password)
-        if(!user)
-            throw new Error()
         req.session.userid=user._id
         req.session.name=user.name
         res.redirect('/user/home')
     }catch(e)
     {
-        console.log(e)
+        if(e.name==='email')
+            res.render('userlogin',{err1:e.message})
+        else
+            res.render('userlogin',{err2:e.message})
     }
 })
 
@@ -65,7 +66,7 @@ router.get('/user/home',login,async(req,res)=>{
         let qrcode="",placename=""
         const user=await User.findById(req.session.userid)
         //PLACES
-        adminid=user.belongsto
+        adminid=user.location
         const admin=await Admin.findById(adminid)
         const places=admin.places
         // QR CODE
@@ -91,7 +92,7 @@ router.get('/user/home',login,async(req,res)=>{
 router.get('/user/places',login,async(req,res)=>{
     try{
         const user=await User.findById(req.session.userid)
-        adminid=user.belongsto
+        adminid=user.location
         const admin=await Admin.findById(adminid)
         res.send(admin.places)
     }catch(e)
@@ -109,7 +110,7 @@ router.get('/user/settings',login,async(req,res)=>{
         let curLocation=""
         admins.forEach(x=>{
             ({_id,name}=x)
-            if(_id.equals(user.belongsto))
+            if(_id.equals(user.location))
                 curLocation=name
             else
                 list.push({_id,name})
@@ -124,28 +125,28 @@ router.get('/user/settings',login,async(req,res)=>{
 //update info
 router.patch('/user/update',login,async(req,res)=>{
     try{
+        if(req.body.email)
+            await verifyEmail(req.body.email)
         const user=await User.findByIdAndUpdate(req.session.userid,req.body,{new:true,runValidators:true})
         if(!user)
-            return res.status(404).send("ERROR")
-        res.send(user)
+            return res.status(500).send()
+        res.send({msg:"Update successfully.",code:1})
     }catch(e)
     {
-        res.status(404).send(e)
+        res.send({msg:e.message,code:0})
     }
 })
 //update password
 router.patch('/user/updatepass/',login,async(req,res)=>{
     try{
         const user=await User.findById(req.session.userid)
-        console.log(user)
         await user.changePassword(req.body)
         user.save()
-        res.send("UPDATED")
+        res.send({msg:"Password updated successfully",code:1})
     }
     catch(e)
     {
-        console.log(e)
-        res.send("FAILED")
+        res.send({msg:e.message,code:0})
     }
 })
 

@@ -118,14 +118,6 @@ adminSchema.methods.changePassword=async function(pass)
     admin.password=pass.newpass
 }
 
-adminSchema.statics.checkEmail=async(newemail)=>{
-    const admin=await Admin.findOne({'email':newemail})
-    if(admin)
-    {
-        throw new Error("Email already in use.")
-    }
-    
-}
 
 const Admin = mongoose.model('Admin',adminSchema)
 

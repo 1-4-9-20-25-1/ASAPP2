@@ -40,14 +40,20 @@
 										<div class="mb-3">
 											<label class="form-label">Email</label>
 											<input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email" />
+											{{#if email}}
+											<small class="text-danger mx-2">
+												<strong id="emailerr">{{email}}</strong>
+											</small>
+											{{/if}}
 										</div>
+										
 										<div class="mb-3">
 											<label class="form-label">Password</label>
 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter password" />
 										</div>
 										<div class="mb-3">
-											<label class="form-label">Select University/Company</label>
-											<select class="form-select" name="belongsto">
+											<label class="form-label">Select Location</label>
+											<select class="form-select" name="location">
 												{{#each list}}
 													<option value={{this._id}}>{{this.name}}</option>
 												{{/each}}

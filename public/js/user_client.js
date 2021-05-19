@@ -46,12 +46,30 @@ if(window.location.pathname==='/user/home')
     },1000)
 }
 
-const updateUserInfo=function()
+const updateUserInfo=function(curLocation,curName,curEmail)
 {
+    const elem=document.getElementById('error')
+    const lst=elem.classList
+
     const name=document.getElementById("username").value
     const email=document.getElementById("email").value
-    const belongsto=document.getElementById("belongsto").value
-    const data={name,email,belongsto}
+    const location=document.getElementById("location").value
+    const data={}
+
+    if(name==="" || email==="")
+    {
+        elem.innerHTML="Fields must not be empty."
+        return;
+    }
+    if(name===curName && location===curLocation && curEmail===email)
+        return;
+    if(name!==curName)
+        data['name']=name
+    if(location!==curLocation)
+        data['location']=location
+    if(curEmail!==email)
+        data['email']=email
+
     fetch("/user/update",
     {method:'PATCH',
     headers: {
@@ -64,27 +82,40 @@ const updateUserInfo=function()
         {
             return res.json()
         }
-        throw new Error("error")
+        throw new Error()
     }).then(res=>{
-        window.location.reload()
+        if(res.code==1)
+        {
+            lst.remove("alert-danger")
+            lst.add("alert-success")
+            elem.innerHTML=res.msg
+            setTimeout(()=>{
+                window.location.reload()
+            },1500)
+        }else{
+            lst.remove("alert-success")
+            lst.add("alert-danger")
+            elem.innerHTML=res.msg
+        }
     }).catch(e=>{
         console.log(e)
     })
 }
 
-const updateUserPassword=function(id)
+const updateUserPassword=function()
 {
+    const err=document.getElementById("passerr")
+
     const newpass=document.getElementById("new1").value
     const new2=document.getElementById("new2").value
     if(newpass!=new2)
     {
-        const err=document.getElementById("msgpass")
         err.className="alert alert-danger"
-        err.textContent="New passwords did not match."
+        err.textContent="New passwords don't match."
     }
     const oldpass=document.getElementById("old").value
     const data={oldpass,newpass}
-    fetch(`/user/updatepass/${id}`,
+    fetch("/user/updatepass",
     {
         method:'PATCH',
         headers: {
@@ -95,15 +126,20 @@ const updateUserPassword=function(id)
     .then(res=>{
         if(res.ok)
         { 
-            const done=document.getElementById("msgpass")
-            done.className="alert alert-success"
-            done.textContent="Update successfully."
+            return res.json()
         }
         else
-            throw new Error("error")
+            throw new Error()
+    }).then(res=>{
+        if(res.code===1)
+            err.className="alert alert-success"
+        else
+            err.className="alert alert-danger"
+        
+        err.textContent=res.msg
     })
     .catch(e=>{
-        console.log(e)
+        window.alert("TRY AGAIN")
     })
 }
 

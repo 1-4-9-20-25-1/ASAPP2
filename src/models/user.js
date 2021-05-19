@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     avatar:{
         type: Buffer
     },
-    belongsto:{
+    location:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
     }
@@ -59,11 +59,17 @@ userSchema.statics.findByCredentials=async(email,pass)=>{
     const user=await User.findOne({email})
     if(!user)
     {
-        throw new Error("NO USER FOUND")
+        const emailErr=new Error("No user found.")
+        emailErr.name="email"
+        throw emailErr
     }
     const isMatch=await bcrypt.compare(pass,user.password)
     if(!isMatch)
-        throw new Error("PASSWORD DIDN'T MATCH")
+    {
+        const passErr=new Error("Password is incorrect.")
+        passErr.name="pass"
+        throw passErr
+    }
     return user
 }
 
@@ -72,7 +78,7 @@ userSchema.methods.changePassword=async function(pass)
     const user=this
     const match=await bcrypt.compare(pass.oldpass,user.password)   
     if(!match)
-        throw new Error("console side error")
+        throw new Error("Current password is incorrect")
     
     user.password=pass.newpass
 }

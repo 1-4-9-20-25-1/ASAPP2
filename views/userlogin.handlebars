@@ -40,14 +40,20 @@
 										<div class="mb-3">
 											<label class="form-label">Email</label>
 											<input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email" />
+										{{#if err1}}
+											<small class="text-danger mx-2">
+												<strong id="emailerr">{{err1}}</strong>
+											</small>
+										{{/if}}
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Password</label>
 											<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" />
-											<small>
-            									<a href="pages-reset-password.html">Forgot password?</a>
+										{{#if err2}}
+											<small class="text-danger m-2">
+												<strong id="passerr">{{err2}}</strong>
           									</small>
-											
+										{{/if}}
 										</div>
 										<div class="text-center mt-3">
 											<button type="submit" class="btn btn-lg btn-primary">Sign in</button>

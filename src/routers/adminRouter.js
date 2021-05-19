@@ -4,6 +4,7 @@ const sharp=require('sharp')
 const Admin=require('../models/admin')
 const QR=require('../models/qr')
 const {home,login}=require('../authentication/adminauth')
+const { verifyEmail } = require('../functions')
 
 const router= new express.Router()
 
@@ -14,17 +15,19 @@ router.get('/admin/signup',home,(req,res)=>{
 })
 
 router.post('/admin/signup',async (req,res)=>{
-    const admin=new Admin(req.body)
     try{
+        const adminPresent=await Admin.findOne({email:req.body.email})
+        if(adminPresent)
+            throw new Error("User already exists")
+        const admin=new Admin(req.body)
+
         await admin.save()
         req.session.adminid=admin._id
         req.session.name=admin.name
-        res.status(201).redirect("/admin/home")
+        res.redirect("/admin/home")
     }catch(e)
     {
-        res.status(400)
-        console.log(e)
-        res.redirect("/admin/signup")
+        res.status(400).render('user/signup')
     }
 })
 
@@ -154,7 +157,7 @@ router.get('/admin/:id/avatar',async(req,res)=>{
 router.patch('/admin/update/:uid',async(req,res)=>{
     try{
         if(req.body.email)
-            await Admin.checkEmail(req.body.email)
+            await verifyEmail(req.body.email)
         const admin=await Admin.findByIdAndUpdate(req.params.uid,req.body,{new:true,runValidators:true})
         if(!admin)
             return res.status(500).send()
@@ -175,7 +178,6 @@ router.patch('/admin/updatepass/:uid',async(req,res)=>{
     }
     catch(e)
     {
-        console.log(e.message)
         res.send({msg:e.message,code:0})
     }
 })

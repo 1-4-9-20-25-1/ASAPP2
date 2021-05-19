@@ -1,120 +1,117 @@
 {{>userheader}}
 
 
-			<main class="content">
-				<div class="container-fluid p-0">
+<main class="content">
+	<div class="container-fluid p-0">
 
-					<h1 class="h3 mb-3">Settings</h1>
+		<h1 class="h3 mb-3">Settings</h1>
 
-					<div class="row">
-						<div class="col-md-3 col-xl-2">
+		<div class="row">
+			<div class="col-md-3 col-xl-2">
 
-							<div class="card">
-								<div class="card-header">
-									<h5 class="card-title mb-0">Profile Settings</h5>
-								</div>
+				<div class="card">
+					<div class="list-group list-group-flush" role="tablist">
+						<a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab">Account</a>
+						<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab">Password</a>									
+						<button class="list-group-item list-group-item-action" data-bs-toggle="list" onClick="deleteUser('{{user._id}}')" role="tab">Delete account</button>
+					</div>
+				</div>
+			</div>
 
-								<div class="list-group list-group-flush" role="tablist">
-									<a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab">Account</a>
-									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab">Password</a>									
-									<button class="list-group-item list-group-item-action" data-bs-toggle="list" onClick="deleteUser('{{user._id}}')" role="tab">Delete account</button>
-								</div>
+			<div class="col-md-9 col-xl-10">
+				<div class="tab-content">
+					<div class="tab-pane fade show active" id="account" role="tabpanel">
+						{{!-- INFO --}}
+						<div class="card">
+							<div class="card-header">
+
+								<h5 class="card-title mb-0">Account Info</h5>
 							</div>
-						</div>
-
-						<div class="col-md-9 col-xl-10">
-							<div class="tab-content">
-								<div class="tab-pane fade show active" id="account" role="tabpanel">
-
-									<div class="card">
-										<div class="card-header">
-
-											<h5 class="card-title mb-0">Account Info</h5>
-										</div>
-										<div class="card-body">
-											<div>
-												<div class="row">
-													<div class="col-md-8">
-														<div class="mb-3">
-															<label class="form-label" for="inputUsername">Username</label>
-															<input type="text" class="form-control" id="username" placeholder="Username"
-															value="{{user.name}}"
-															>
-														</div>
-														<div class="mb-3">
-															<label class="form-label" for="inputUsername">Email</label>
-															<input type="email" class="form-control" id="email"
-															placeholder="Email"
-															value="{{user.email}}"
-															>
-														</div>
-														<div class="mb-3">
-															<label class="form-label">Change Location</label>
-															<select class="form-select" id="belongsto">
-																<option value={{this.belongsto}}>{{curLocation}}</option>
-																{{#each list}}
-																	<option value={{this._id}}>{{this.name}}</option>
-																{{/each}}
-															</select>
-														</div>
-														<button type="button" onclick="updateUserInfo()" class="btn btn-primary">Save changes</button>
-													</div>
-													<div class="col-md-4">
-														<div class="text-center">
-															<img src="https://asapp2.herokuapp.com/user/{{user._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" />
-															{{!-- <img src="http://localhost:4444/user/{{user._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" /> --}}
-															<div class="mt-2">
-																<form action="/user/me/avatar" method="POST" enctype="multipart/form-data">
-																	<input type="file" name="avatar" style="width:98px">
-																	<button class="btn btn-primary" type="submit">
-																		UPLOAD
-																	</button>
-																</form>
-															</div>
-														</div>
-													</div>
-												</div>
-
+							<div class="card-body">
+								<div>
+									<div class="row">
+										<div class="col-md-8">
+											<div class="mb-3">
+												<label class="form-label" for="inputUsername">Username</label>
+												<input type="text" class="form-control" id="username" placeholder="Username"
+												value="{{user.name}}"
+												>
 											</div>
-
+											<div class="mb-3">
+												<label class="form-label" for="inputUsername">Email</label>
+												<input type="email" class="form-control" id="email"
+												placeholder="Email"
+												value="{{user.email}}"
+												>
+											</div>
+											<div class="mb-3">
+												<label class="form-label">Change Location</label>
+												<select class="form-select" id="location">
+													<option value={{user.location}}>{{curLocation}}</option>
+													{{#each list}}
+														<option value={{this._id}}>{{this.name}}</option>
+													{{/each}}
+												</select>
+											</div>
+											<div class="alert alert-danger mt-1 w-100" role="alert" style="padding-left: 4px;" id="error"></div>
+											<button type="button" 
+											onclick="updateUserInfo('{{user.location}}','{{user.name}}','{{user.email}}')" 
+											class="btn btn-primary">Save changes</button>
+										</div>
+										<div class="col-md-4">
+											<div class="text-center">
+												<img src="https://asapp2.herokuapp.com/user/{{user._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" />
+												{{!-- <img src="http://localhost:4444/user/{{user._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" /> --}}
+												<div class="mt-2">
+													<form action="/user/me/avatar" method="POST" enctype="multipart/form-data">
+														<input type="file" name="avatar" style="width:98px">
+														<button class="btn btn-primary" type="submit">
+															UPLOAD
+														</button>
+													</form>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
-								{{!-- password --}}
-								<div class="tab-pane fade" id="password" role="tabpanel">
-									<div class="card">
-										<div class="card-body">
-											<h5 class="card-title">Password</h5>
 
-											<div>
-												<div class="mb-3">
-													<label class="form-label" for="inputPasswordCurrent">Current password</label>
-													<input type="password" class="form-control" id="old">
-													<small><a href="#">Forgot your password?</a></small>
-												</div>
-												<div class="mb-3">
-													<label class="form-label" for="inputPasswordNew">New password</label>
-													<input type="password" class="form-control" id="new1">
-												</div>
-												<div class="mb-3">
-													<label class="form-label" for="inputPasswordNew2">Verify password</label>
-													<input type="password" class="form-control" id="new2">
-												</div>
-												<div class="invisible" id="msgpass" role="alert" >
-												</div>
-												<button 
-												type="button"
-												onclick="updateUserPassword('{{user._id}}')" class="btn btn-primary">Save changes</button>
-											</div>
-
-										</div>
-									</div>
 								</div>
+
 							</div>
 						</div>
 					</div>
+					{{!-- password --}}
+					<div class="tab-pane fade" id="password" role="tabpanel">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">Password</h5>
 
+								<div>
+									<div class="mb-3">
+										<label class="form-label" for="inputPasswordCurrent">Current password</label>
+										<input type="password" class="form-control" id="old">
+									</div>
+									<div class="mb-3">
+										<label class="form-label" for="inputPasswordNew">New password</label>
+										<input type="password" class="form-control" id="new1">
+									</div>
+									<div class="mb-3">
+										<label class="form-label" for="inputPasswordNew2">Verify password</label>
+										<input type="password" class="form-control" id="new2">
+									</div>
+									<div class="mb-2" id="passerr" role="alert" style="padding-left: 4px;"></div>
+									<button 
+									type="button"
+									onclick="updateUserPassword()" class="btn btn-primary">Save changes</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
 				</div>
-			</main>
+			</div>
+		</div>
+
+	</div>
+</main>
 
 {{>userfooter}}			

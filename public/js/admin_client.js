@@ -71,7 +71,7 @@ const updateInfo=function(id,mail,username)
         data['email']=email
     if(username!=name)
         data['name']=name;
-    console.log(data)
+    
     fetch(`/admin/update/${id}`,
     {method:'PATCH',
     headers: {
@@ -113,7 +113,6 @@ const updatepass=function(id)
     const lst=err.classList
     if(newpass!=new2)
     {
-        elst.add("alert alert-danger")
         err.textContent="New passwords did not match."
         return;
     }
