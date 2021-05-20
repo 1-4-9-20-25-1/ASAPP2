@@ -28,7 +28,7 @@ router.post('/admin/signup',async (req,res)=>{
     }catch(e)
     {
         console.log(e)
-        res.status(400).render('adminsignup')
+        res.render('adminsignup')
     }
 })
 
