@@ -20,15 +20,13 @@ router.post('/admin/signup',async (req,res)=>{
         if(adminPresent)
             throw new Error("User already exists")
         const admin=new Admin(req.body)
-
         await admin.save()
         req.session.adminid=admin._id
         req.session.name=admin.name
         res.redirect("/admin/home")
     }catch(e)
     {
-        console.log(e)
-        res.render('adminsignup')
+        res.render('adminsignup',{msg:e.message})
     }
 })
 

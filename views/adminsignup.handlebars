@@ -40,6 +40,11 @@
 										<div class="mb-3">
 											<label class="form-label">Email</label>
 											<input class="form-control form-control-lg" type="email" name="email" placeholder="" />
+										{{#if msg}}
+											<small class="text-danger mx-2">
+												<strong id="emailerr">{{msg}}</strong>
+											</small>
+										{{/if}}
 										</div>
 										<div class="mb-3">
 											<label class="form-label">Password</label>
