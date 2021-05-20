@@ -64,7 +64,8 @@ app.get('/logout',async(req,res)=>{
 
 // ROOT PAGE
 app.get('/',(req,res)=>{
-    res.render('demo')
+    // res.render('demo')
+    res.redirect('user/login')
 })
 
 module.exports = app

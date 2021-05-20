@@ -64,7 +64,7 @@ router.get('/admin/home',login,async(req,res)=>{
 router.post('/admin/home',login,async(req,res)=>{
     try{
         const place=req.body
-        const pinexists=await Admin.findOne({'places.pincode':req.body.pincode})
+        const pinexists=await Admin.findOne({'places.pincode':req.body.pincode,'_id':req.session.adminid})
         if(pinexists)
             return res.send({err:true})
         const admin=await Admin.findById(req.session.adminid)
