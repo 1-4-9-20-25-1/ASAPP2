@@ -37,7 +37,7 @@ router.post('/scannerlogin',async(req,res)=>{
         throw new Error()
     }catch(e)
     {
-        res.status(404).send()
+        res.status(404).send({msg:"Invalid credentials"})
     }
 })
 
