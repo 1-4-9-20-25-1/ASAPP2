@@ -27,7 +27,8 @@ router.post('/admin/signup',async (req,res)=>{
         res.redirect("/admin/home")
     }catch(e)
     {
-        res.status(400).render('user/signup')
+        console.log(e)
+        res.status(400).render('adminsignup')
     }
 })
 
@@ -63,9 +64,12 @@ router.get('/admin/home',login,async(req,res)=>{
 router.post('/admin/home',login,async(req,res)=>{
     try{
         const place=req.body
+        const pinexists=await Admin.findOne({'places.pincode':req.body.pincode})
+        if(pinexists)
+            return res.send({err:true})
         const admin=await Admin.findById(req.session.adminid)
         await admin.addPlace(place)
-        res.status(201).redirect('/admin/home')
+        res.send({err:false})
     }catch(e)
     {
         res.status(400).send(e)
@@ -202,12 +206,16 @@ router.delete('/admin/delete/:delid',async(req,res)=>{
 //add scanner number
 router.post('/addnumber',async(req,res)=>{
     try{
-        const number=req.body
+        const exists=await Admin.findOne({'scanners.number':req.body.number})
+        if(exists)
+            return res.send({code:0,msg:"Number already exists."})
+
         const admin=await Admin.findById(req.session.adminid)
-        await admin.addNumber(number)
-        res.status(200).send()
+        await admin.addNumber(req.body)
+        res.status(200).send({code:1,msg:"Number added successfully."})
     }catch(e)
     {
+        console.log(e)
         res.status(500).send(e)
     }
 })

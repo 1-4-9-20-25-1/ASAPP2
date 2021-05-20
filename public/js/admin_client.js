@@ -48,6 +48,37 @@ if(window.location.pathname==='/admin/home')
     },1000)
 }
 
+const addPlace=function()
+{
+    const name=document.getElementById('name').value
+    const capacity=document.getElementById('capacity').value
+    const pincode=document.getElementById('pincode').value
+    const data={name,capacity,pincode}
+    fetch('/admin/home',{
+        method:"POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        body:JSON.stringify(data)
+    }).then(res=>{
+        if(res.ok) return res.json()
+        throw new Error()
+    }).then(res=>{
+        if(res.err)
+        {
+            const elem=document.getElementById("pinerr")
+            elem.textContent="Pincode already exists. Choose a different one."
+        }else{
+            window.location.reload()
+        }
+    }).catch(e=>{
+        window.alert("try again")
+    })
+}
+
+
+
 const deleteplace=function(id)
 {
     fetch(`/delete/places/${id}`,{method:"DELETE"})
@@ -92,14 +123,16 @@ const updateInfo=function(id,mail,username)
         {
             lst.remove("alert-danger")
             lst.add("alert-success")
+            elem.innerHTML=res.msg
+            setTimeout(()=>{
+                window.location.reload()
+            },1500)
         }else{
             lst.remove("alert-success")
             lst.add("alert-danger")
+            elem.innerHTML=res.msg
         }
-        elem.innerHTML=res.msg
-        setTimeout(()=>{
-            window.location.reload()
-        },1500)
+
     }).catch(e=>{
         console.log(e)
     })
@@ -171,11 +204,12 @@ const deleteAccount=function(id)
 
 const addNumber=function()
 {
+    const e=document.getElementById("numerr")
+    const lst=e.classList
     var phoneno = /^\d{10}$/;
     const number=document.getElementById('number').value
     if(!number.match(phoneno))
     {
-        const e=document.getElementById("numerr")
         e.innerHTML="Not a valid number."
         return;
     }
@@ -187,12 +221,25 @@ const addNumber=function()
     },
     body:JSON.stringify({number})})
     .then(res=>{
-        if(res.ok) window.location.reload()
+        if(res.ok) return res.json()
+        else throw new Error()
+    }).then(res=>{
+        if(res.code==1)
+        {
+            lst.remove("alert-danger");
+            lst.add("alert-success");
+            e.textContent=res.msg
+            setTimeout(()=>{
+                window.location.reload()
+            },1500)
+        }
         else{
-            window.alert('TRY AGAIN')
+            lst.remove("alert-success")
+            lst.add("alert-danger")
+            e.textContent=res.msg
         }
     }).catch(e=>{
-        console.log(e)
+        window.alert('TRY AGAIN')
     })
 
 }

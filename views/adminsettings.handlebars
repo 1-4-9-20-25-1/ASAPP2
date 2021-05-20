@@ -44,6 +44,8 @@
 															value="{{admin.email}}"
 															>
 														</div>
+														<div class="alert alert-danger mt-1	" role="alert" style="padding-left: 4px;" id="mailerr"></div>
+														<button type="button" onclick="updateInfo('{{admin._id}}','{{admin.email}}','{{admin.name}}')" class="btn btn-primary">Save changes</button>
 													</div>
 													<div class="col-md-4">
 														<div class="text-center">
@@ -60,9 +62,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="alert alert-danger mt-1 w-75" role="alert" style="padding-left: 4px;" id="mailerr"></div>
-												<button type="button" onclick="updateInfo('{{admin._id}}','{{admin.email}}','{{admin.name}}')" class="btn btn-primary">Save changes</button>
-											</div>
+												</div>
 
 										</div>
 									</div>
@@ -107,9 +107,8 @@
 													<div class="input-group-append">
 														<button class="btn btn-outline-primary" onclick="addNumber()" type="button" id="addnumber">Add</button>
 													</div>
-
 												</div>
-														<div class="alert alert-danger mt-1" role="alert" style="padding-left: 4px;" id="numerr"></div>
+												<div class="alert alert-danger mt-1" role="alert" style="padding-left: 4px;" id="numerr"></div>
 												
 												<ul class="list-group list-group-flush">
 													{{#each admin.scanners}}

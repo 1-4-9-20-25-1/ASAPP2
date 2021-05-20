@@ -15,29 +15,33 @@
 								<div class="modal-content">
 									<div class="form-group p-2 pd-1 text-center">
 										<label for="place" class="text-center"><strong>PLACE DETAILS</strong></label>
-										<form method="POST" action="">
 											<input type="text" 
 											name="name" 
+											id="name" 
 											placeholder="Place Name"
 											class="form-control bg-light"
 											required
 											>
 											<input type="number" 
 											name="capacity" 
+											id="capacity" 
 											placeholder="Maximum Capacity"
 											class="form-control bg-light my-1"
 											required
 											>
 											<input type="text" 
 											name="pincode" 
+											id="pincode" 
 											placeholder="Pin Code"
 											class="form-control bg-light my-1"
 											required
 											>
+											<small class="text-danger mx-2">
+												<strong id="pinerr"></strong>
+											</small>
 											<div class="mt-1">
-												<input type="submit" id="placeform" class="btn btn-primary">
+												<button id="placeform" onclick="addPlace()" class="btn btn-primary">ADD</button>
 											</div>
-										</form>
 									</div>
 								</div>
 							</div>
