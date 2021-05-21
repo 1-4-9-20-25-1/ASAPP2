@@ -56,6 +56,13 @@ const adminSchema=new mongoose.Schema({
             pincode:{
                 type:String,
                 required:true
+            },
+            open:{
+                type:Boolean,
+                default:true,
+            },
+            info:{
+                type:String,
             }
         }
     ]

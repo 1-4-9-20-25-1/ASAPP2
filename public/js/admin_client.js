@@ -12,6 +12,8 @@ if(window.location.pathname==='/admin/home')
         .then(res=>{
             const places=res
             places.forEach(place => {
+               if(place.open)
+               {
                 const elem=document.getElementById(place._id.toString())
                 const childnodes=elem.childNodes
                 childnodes[3].textContent=place.count
@@ -39,7 +41,7 @@ if(window.location.pathname==='/admin/home')
                     childnodes[5].childNodes[1].style.width="0%"
                     childnodes[5].childNodes[1].className="progress-bar progress-bar-striped bg-secondary"
                 }
-
+               }
             });
         })
         .catch(err=>{
@@ -77,7 +79,40 @@ const addPlace=function()
     })
 }
 
+const changePlaceStatus=function(id,b){
+    var status= (b=="true")
+    fetch(`/updatestatus/${id}`,
+    {method:"POST",
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body:JSON.stringify({status})
+    }).then(res=>{
+        if(res.ok)  return window.location.reload();
+        throw new Error()
+    }).catch(e=>{
+        window.alert("TRY AGAIN")
+    })
+}
 
+const addMessage=function(id)
+{
+    const info=document.getElementById("message-text").value
+    fetch(`/addplaceinfo/${id}`,
+    {method:"POST",
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body:JSON.stringify({info})
+}).then(res=>{
+    if(!res.ok)throw new Error()
+}).catch(e=>{
+    window.alert("try again")
+})
+
+}
 
 const deleteplace=function(id)
 {

@@ -5,6 +5,7 @@ const Admin=require('../models/admin')
 const QR=require('../models/qr')
 const {home,login}=require('../authentication/adminauth')
 const { verifyEmail } = require('../functions')
+const { bool } = require('sharp')
 
 const router= new express.Router()
 
@@ -108,6 +109,29 @@ router.get('/admin/settings',login,async(req,res)=>{
     catch(e)
     {
         console.log(e)
+    }
+})
+
+router.post('/updatestatus/:id',async(req,res)=>{
+    try{
+        const status=!req.body.status
+        await Admin.findOneAndUpdate({'places._id':req.params.id},{$set: {'places.$.open':status}});
+        res.send()
+    }catch(e)
+    {
+        res.status(404).send()
+    }
+})
+
+router.post('/addplaceinfo/:id',async(req,res)=>{
+    try{
+        console.log(req.body.info)
+        await Admin.findOneAndUpdate({'places._id':req.params.id},{$set: {'places.$.info':req.body.info}})
+        res.send()
+    }catch(e)
+    {
+        console.log(e)
+        res.status(404).send()
     }
 })
 

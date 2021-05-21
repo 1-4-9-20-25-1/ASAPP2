@@ -14,6 +14,7 @@
 									<a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab">Account</a>
 									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab">Password</a>									
 									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#scanners" role="tab">Scanners</a>									
+									<a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#places" role="tab">Places</a>									
 									<button class="list-group-item list-group-item-action" onclick="deleteAccount('{{admin._id}}')" role="tab">Delete account</button>
 								</div>
 							</div>
@@ -95,7 +96,9 @@
 
 										</div>
 									</div>
-								</div>								
+								</div>	
+
+								{{!-- SCANNERS --}}
 								<div class="tab-pane fade" id="scanners" role="tabpanel">
 									<div class="card">
 										<div class="card-body">
@@ -116,7 +119,78 @@
 														<div class="row">
 														<div class="col-6">{{this.number}}</div>
 														<div class="col-1 ml-auto mr-5">
-															<button onclick="deleteNumber('{{this._id}}')" class="btn-sm btn btn-outline-danger">DELETE</button>
+															<button onclick="deleteNumber('{{this._id}}')" class="btn-sm btn btn-outline-danger fly">DELETE</button>
+														</div>
+														</div>
+													</li>
+													{{/each}}
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="tab-pane fade" id="places" role="tabpanel">
+									<div class="card">
+										<div class="card-body">
+											<h3>Places info</h5>
+
+											<div>	
+												<ul class="list-group list-group-flush">
+														<li class="list-group-item">
+														<div class="row">
+														<div class="col-3"><strong>Place</strong></div>
+														<div class="col-2"><strong>Pincode</strong></div>
+														<div class="col-2"><strong>head count</strong></div>
+														<div class="col-3"><strong>Capacity</strong></div>
+														</div>
+													</li>
+													{{#each admin.places}}
+													<li class="list-group-item">
+														<div class="row">
+														<div class="col-3">
+															{{#if this.open}}
+															<span class="online"></span>
+															{{else}}
+															<span class="offline"></span>
+															{{/if}}
+														{{this.name}}
+														</div>
+														<div class="col-2">{{this.pincode}}</div>
+														<div class="col-2">{{this.count}}</div>
+														<div class="col-1">{{this.capacity}}</div>
+														<div class="col-3 ml-auto">
+															<button onclick="" class="btn-sm btn btn-outline-info fly"
+															data-bs-toggle="modal"
+															data-bs-target="#messagemodal"
+															 >MESSAGE</button>
+															<div class="modal fade" id="messagemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+																<div class="modal-dialog modal-dialog-centered">
+																<div class="modal-content">
+																<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">ADD MESSAGE</h5>
+																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																</div>
+																<div class="modal-body">
+																<div class="mb-3">
+																<label for="message-text" class="col-form-label">Message:</label>
+																<textarea class="form-control" id="message-text"></textarea>
+																</div>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+																	<button type="button" onclick="addMessage('{{this._id}}')" class="btn btn-primary">ADD</button>
+																	</div>
+																	</div>
+																</div>
+															</div>
+
+															{{#if this.open}}
+																<button onclick="changePlaceStatus('{{this._id}}','{{this.open}}')" class="btn-sm btn btn-outline-warning fly">CLOSE</button>
+															{{else}}
+																<button onclick="changePlaceStatus('{{this._id}}','{{this.open}}')" class="btn-sm btn btn-outline-success fly" style="width: 58px;">OPEN</button>
+															{{/if}}
+															<button onclick="deleteplace('{{this._id}}')" class="btn-sm btn btn-outline-danger fly">DELETE</button>
 														</div>
 														</div>
 													</li>

@@ -35,6 +35,7 @@
 					</div>
 					{{/if}}
 {{!-- -------------------------PLACES DISPLAY------------------------------------------------------- --}}
+
 					<div class="row">
 						<div class="col-xl-12 col-xxl-5 d-flex">
 							<div class="w-100">
@@ -43,21 +44,31 @@
 										<div class="card col-sm-2 m-1 place">
 											<div class="card-body" >
 											<div id="{{this._id}}">
-												<h3 class="mt-1 mb-3 text-center"><strong>{{this.name}}</strong></h3>
+												<h3 class="mt-1 mb-3 text-center">
+													<strong>{{this.name}}</strong>
+												</h3>
+												
 												<div class="mb-1 text-center display-3 font-weight-bold">
 													<strong class="text-{{colors this.count this.capacity}}">{{this.count}}</strong>
 												</div>
+												{{#if this.open}}
 													<div class="progress">
 														<div 
 														class="progress-bar progress-bar-striped bg-{{colors this.count this.capacity}}"
 														role="progressbar" 
 														></div>
 													</div>
-												<div class="text-center mt-5">
-													<button 
-													onclick="genreateQrcode('{{this._id}}','{{this.name}}')"
-													class="btn btn-sm w-75 btn-primary {{../disable}}">QR CODE</button>
-												</div>
+													<div class="text-center mt-5">
+														<button 
+														onclick="genreateQrcode('{{this._id}}','{{this.name}}')"
+														class="btn btn-sm w-75 btn-primary {{../disable}}">QR CODE</button>
+													</div>
+												{{else}}
+													<div class="text-danger"
+													style="font-size:30px"
+													align="center"><strong>CLOSED</strong></div>
+													<div align="center" class="text-secondary ">{{this.info}}</div>
+												{{/if}}
 											</div>
 											</div>
 										</div>

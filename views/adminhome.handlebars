@@ -62,14 +62,17 @@
 												<div class="mb-1 text-center display-3 font-weight-bold">
 													<strong class="text-{{colors this.count this.capacity}}">{{this.count}}</strong>
 												</div>
+												{{#if this.open}}
 													<div class="progress">
 														<div 
 														class="progress-bar progress-bar-striped bg-{{colors this.count this.capacity}}"
-														{{!-- width="{{}}" --}}
 														role="progressbar" 
 														></div>
 													</div>
-												<div class="text-right mt-5 text-center">
+												{{else}}
+													<div class="text-danger" align="center"><strong>CLOSED</strong></div>
+												{{/if}}
+												<div class="text-right mt-4 text-center">
 													<button
 													onClick="deleteplace('{{this._id}}')"
 													class="btn btn-sm btn-danger ">DELETE</button>
