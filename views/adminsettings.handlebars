@@ -53,9 +53,12 @@
 															<img src="https://asapp2.herokuapp.com/admin/{{admin._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" />
 															{{!-- <img alt="Charles Hall" src="http://localhost:4444/admin/{{admin._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" /> --}}
 															<div class="mt-2">
-																<form action="/admin/me/avatar" method="POST" enctype="multipart/form-data">
-																	<input type="file" name="avatar" style="width:98px">
-																	<button class="btn btn-primary" type="submit">
+																<form
+																action="/admin/me/avatar"
+																method="POST"
+															 	enctype="multipart/form-data">
+																	<input type="file" name="avatar" onchange="func()" id="ava" style="width:98px">
+																	<button class="btn btn-primary"  id="btnone" type="submit" disabled>
 																		UPLOAD
 																	</button>
 																</form>

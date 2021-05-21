@@ -64,8 +64,8 @@
 												{{!-- <img src="http://localhost:4444/user/{{user._id}}/avatar" class="rounded-circle img-responsive mt-2" width="128" height="128" /> --}}
 												<div class="mt-2">
 													<form action="/user/me/avatar" method="POST" enctype="multipart/form-data">
-														<input type="file" name="avatar" style="width:98px">
-														<button class="btn btn-primary" type="submit">
+														<input type="file" name="avatar" onchange="func2()" style="width:98px">
+														<button class="btn btn-primary" id="btntwo" type="submit" disabled>
 															UPLOAD
 														</button>
 													</form>

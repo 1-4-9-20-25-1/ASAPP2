@@ -141,14 +141,14 @@ const upload=multer({
         fileSize:1000000
     },
     fileFilter(req,file,cb){
-        if(file.originalname.match(/\.(jpg|jpeg|png)$/))
+        if(file.originalname.match(/\.(jpg|jpeg|png|PNG|JPG|JPEG)$/))
             return cb(undefined,true)
         return cb(new Error("Please upload an image"))
     }
 })
 
 //upload pic******************************************
-router.post('/admin/me/avatar',upload.single('avatar'),async(req,res)=>{
+router.post('/admin/me/avatar',login,upload.single('avatar'),async(req,res)=>{
     try{
         const buffer=await sharp(req.file.buffer).resize({width:128,height:128}).png().toBuffer()
         const admin=await Admin.findById(req.session.adminid)

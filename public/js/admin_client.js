@@ -181,6 +181,7 @@ const updatepass=function(id)
     const lst=err.classList
     if(newpass!=new2)
     {
+        lst.add("alert-danger")
         err.textContent="New passwords did not match."
         return;
     }
@@ -291,7 +292,10 @@ const deleteNumber=function(id)
     })
 }
 
-
+const func=function(){
+    const btn=document.getElementById("btnone")
+    btn.disabled=false;
+}
 
 
 if(window.location.pathname === '/admin/home')

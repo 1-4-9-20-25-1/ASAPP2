@@ -203,7 +203,10 @@ const deleteQrcode=function(id)
 }
 
 
-
+const func2=function(){
+    const btn=document.getElementById("btntwo")
+    btn.disabled=false;
+}
 
 
 
