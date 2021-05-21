@@ -141,17 +141,17 @@
 											<div>	
 												<ul class="list-group list-group-flush">
 														<li class="list-group-item">
-														<div class="row">
-														<div class="col-3"><strong>Place</strong></div>
-														<div class="col-2"><strong>Pincode</strong></div>
-														<div class="col-2"><strong>head count</strong></div>
-														<div class="col-3"><strong>Capacity</strong></div>
+														<div class="row vanish">
+														<div class="col-sm-2 col-md-3"><strong>Place</strong></div>
+														<div class="col-sm-2 col-md-2"><strong>Pincode</strong></div>
+														<div class="col-sm-2 col-md-2"><strong>head count</strong></div>
+														<div class="col-sm-2 col-md-3"><strong>Capacity</strong></div>
 														</div>
 													</li>
 													{{#each admin.places}}
 													<li class="list-group-item">
 														<div class="row">
-														<div class="col-3">
+														<div class="col-sm-2 col-md-3 a-xs">
 															{{#if this.open}}
 															<span class="online"></span>
 															{{else}}
@@ -159,11 +159,11 @@
 															{{/if}}
 														{{this.name}}
 														</div>
-														<div class="col-2">{{this.pincode}}</div>
-														<div class="col-2">{{this.count}}</div>
-														<div class="col-1">{{this.capacity}}</div>
-														<div class="col-3 ml-auto">
-															<button onclick="" class="btn-sm btn btn-outline-info fly"
+														<div class="col-sm-2 col-md-2 b-xs">{{this.pincode}}</div>
+														<div class="col-sm-2 col-md-2 c-xs">{{this.count}}</div>
+														<div class="col-sm-2 col-md-2 c-xs">{{this.capacity}}</div>
+														<div class="ml-auto col-md-3 actiongroup-xs ">
+															<button class="btn-sm btn btn-outline-info fly action-btn"
 															data-bs-toggle="modal"
 															data-bs-target="#messagemodal"
 															 >MESSAGE</button>
@@ -189,12 +189,12 @@
 															</div>
 
 															{{#if this.open}}
-																<button onclick="changePlaceStatus('{{this._id}}','{{this.open}}')" class="btn-sm btn btn-outline-warning fly">CLOSE</button>
+																<button onclick="changePlaceStatus('{{this._id}}','{{this.open}}')" class="btn-sm btn btn-outline-warning fly action-btn">CLOSE</button>
 															{{else}}
-																<button onclick="changePlaceStatus('{{this._id}}','{{this.open}}')" class="btn-sm btn btn-outline-success fly" style="width: 58px;">OPEN</button>
+																<button onclick="changePlaceStatus('{{this._id}}','{{this.open}}')" class="btn-sm btn btn-outline-success fly action-btn open">OPEN</button>
 															{{/if}}
-															<button onclick="deleteplace('{{this._id}}')" class="btn-sm btn btn-outline-danger fly">DELETE</button>
-														</div>
+															<button onclick="deleteplace('{{this._id}}')" class="btn-sm btn btn-outline-danger fly action-btn">DELETE</button>
+															</div>
 														</div>
 													</li>
 													{{/each}}
