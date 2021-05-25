@@ -98,10 +98,8 @@ const changePlaceStatus=function(id,b){
 
 const addMessage=function(id,name)
 {
-    // console.log(id)
-    // console.log(`text${name}`)
+
     const info=document.getElementById(`text${name}`).value
-    console.log(info)
     fetch(`/addplaceinfo/${id}`,
     {method:"POST",
     headers: {
