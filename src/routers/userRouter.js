@@ -95,7 +95,8 @@ router.get('/user/places',login,async(req,res)=>{
         
     }catch(e)
     {
-        console.log(e)
+        res.send(e)
+        // console.log(e)
     }
 })
 
@@ -153,7 +154,7 @@ const upload=multer({
         fileSize:1000000
     },
     fileFilter(req,file,cb){
-        if(file.originalname.match(/\.(jpg|jpeg|png)$/))
+        if(file.originalname.match(/\.(jpg|jpeg|png|PNG|JPG|JPEG)$/))
             return cb(undefined,true)
         return cb(new Error("Please upload an image"))
     }
