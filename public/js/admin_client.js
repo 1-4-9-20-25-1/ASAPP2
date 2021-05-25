@@ -96,9 +96,12 @@ const changePlaceStatus=function(id,b){
     })
 }
 
-const addMessage=function(id)
+const addMessage=function(id,name)
 {
-    const info=document.getElementById("message-text").value
+    // console.log(id)
+    // console.log(`text${name}`)
+    const info=document.getElementById(`text${name}`).value
+    console.log(info)
     fetch(`/addplaceinfo/${id}`,
     {method:"POST",
     headers: {
@@ -113,6 +116,7 @@ const addMessage=function(id)
 })
 
 }
+
 
 const deleteplace=function(id)
 {
