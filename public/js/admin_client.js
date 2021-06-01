@@ -96,10 +96,10 @@ const changePlaceStatus=function(id,b){
     })
 }
 
-const addMessage=function(id,name)
+const addMessage=function(id,pincode)
 {
 
-    const info=document.getElementById(`text${name}`).value
+    const info=document.getElementById(`text${pincode}`).value
     fetch(`/addplaceinfo/${id}`,
     {method:"POST",
     headers: {

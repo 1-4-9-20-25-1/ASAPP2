@@ -165,9 +165,9 @@
 														<div class="ml-auto col-md-3 actiongroup-xs ">
 															<button class="btn-sm btn btn-outline-info fly action-btn"
 															data-bs-toggle="modal"
-															data-bs-target="#{{this.name}}"
+															data-bs-target="#id{{this.pincode}}"
 															 >MESSAGE</button>
-															<div class="modal fade" id="{{this.name}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+															<div class="modal fade" id="id{{this.pincode}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 																<div class="modal-dialog modal-dialog-centered">
 																<div class="modal-content">
 																<div class="modal-header">
@@ -177,12 +177,12 @@
 																<div class="modal-body">
 																<div class="mb-3">
 																<label for="message-text" class="col-form-label">Message:</label>
-																<textarea class="form-control" id="text{{this.name}}"></textarea>
+																<textarea class="form-control" id="text{{this.pincode}}"></textarea>
 																</div>
 																</div>
 																<div class="modal-footer">
 																	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-																	<button type="button" onclick="addMessage('{{this._id}}','{{this.name}}')" class="btn btn-primary">ADD</button>
+																	<button type="button" onclick="addMessage('{{this._id}}','{{this.pincode}}')" class="btn btn-primary">ADD</button>
 																	</div>
 																	</div>
 																</div>
