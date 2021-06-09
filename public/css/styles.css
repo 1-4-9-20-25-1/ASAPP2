@@ -10,6 +10,15 @@
     transform: scale(1.02);
 }
 
+.placename{
+    height: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+.placename:hover {
+    overflow: visible;
+}
+
 .t-shadow{
     text-shadow: -10px 9px 9px rgba(0,0,0,0.6);
 
